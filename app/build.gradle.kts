@@ -7,7 +7,7 @@ apply(from = "../ktlint.gradle")
 
 android {
     namespace = "com.example.fefu_course"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.fefu_course"
@@ -68,4 +68,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.navigation.compose)
 }

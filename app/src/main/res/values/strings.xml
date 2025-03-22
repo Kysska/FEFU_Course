@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">FEFU-Course</string>
+    <string name="app_name">FEFU-Mobile</string>
+
+    <string name="signup">Зарегистрироваться</string>
+    <string name="back_icon_description">Назад</string>
+    <string name="image_description">Картинка</string>
+
+    <string name="welcome_screen_title">Пожалуй лучший фитнес трекер в ДВФУ</string>
+    <string name="welcome_screen_description">Созданный студентами</string>
+    <string name="welcome_screen_text_signin">Уже есть аккаунт?</string>
+
+    <string name="signup_screen_title">Регистрация</string>
+    <string name="signup_screen_name">Имя или никнейм</string>
+    <string name="signup_screen_password_visibility">Показать пароль</string>
+    <string name="signup_screen_password_not_visibility">Скрыть пароль</string>
+    <string name="signup_screen_password_repeat">Повторите пароль</string>
+    <string name="signup_screen_gender">Пол</string>
+    <string name="signup_screen_gender_m">Мужской</string>
+    <string name="signup_screen_gender_w">Женский</string>
+    <string name="signup_screen_gender_o">Другое</string>
+
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+
+    <string name="signin_screen_title">Вход</string>
+    <string name="signin_screen_button">Войти</string>
+
 </resources>
