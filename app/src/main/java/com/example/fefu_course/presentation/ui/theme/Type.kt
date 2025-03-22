@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.theme
+package com.example.fefu_course.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.graphics.Color

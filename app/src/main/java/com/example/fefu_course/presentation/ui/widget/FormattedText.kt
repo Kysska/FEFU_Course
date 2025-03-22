@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.widget
+package com.example.fefu_course.presentation.ui.widget
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -11,8 +11,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import com.example.fefu_course.R
-import com.example.fefu_course.ui.theme.Typography
-import com.example.fefu_course.ui.theme.primaryColor
+import com.example.fefu_course.presentation.ui.theme.Typography
+import com.example.fefu_course.presentation.ui.theme.primaryColor
 
 @Composable
 fun FormattedText() {

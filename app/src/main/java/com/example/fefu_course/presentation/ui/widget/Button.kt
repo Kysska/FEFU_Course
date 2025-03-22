@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.widget
+package com.example.fefu_course.presentation.ui.widget
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -11,7 +11,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.example.fefu_course.R
-import com.example.fefu_course.ui.theme.primaryColor
+import com.example.fefu_course.presentation.ui.theme.primaryColor
 
 @Composable
 fun BaseButton(

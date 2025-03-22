@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.widget
+package com.example.fefu_course.presentation.ui.widget
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,10 +17,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.fefu_course.R
-import com.example.fefu_course.ui.theme.Typography
-import com.example.fefu_course.ui.theme.errorColor
-import com.example.fefu_course.ui.theme.primaryColor
-import com.example.fefu_course.ui.theme.textFieldBorderColor
+import com.example.fefu_course.presentation.ui.theme.Typography
+import com.example.fefu_course.presentation.ui.theme.errorColor
+import com.example.fefu_course.presentation.ui.theme.primaryColor
+import com.example.fefu_course.presentation.ui.theme.textFieldBorderColor
 
 @Composable
 private fun CommonTextField(

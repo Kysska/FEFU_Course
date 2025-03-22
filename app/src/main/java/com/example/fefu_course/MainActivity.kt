@@ -7,8 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.example.fefu_course.navigation.AppNavigation
-import com.example.fefu_course.ui.theme.FEFUMobileTheme
+import com.example.fefu_course.presentation.navigation.AppNavigation
+import com.example.fefu_course.presentation.ui.theme.FEFUMobileTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

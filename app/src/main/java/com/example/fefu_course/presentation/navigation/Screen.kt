@@ -1,4 +1,4 @@
-package com.example.fefu_course.navigation
+package com.example.fefu_course.presentation.navigation
 
 import androidx.annotation.DrawableRes
 

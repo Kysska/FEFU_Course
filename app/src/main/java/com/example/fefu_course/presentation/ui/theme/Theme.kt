@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.theme
+package com.example.fefu_course.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.example.fefu_course.ui.screen
+package com.example.fefu_course.presentation.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.fefu_course.R
-import com.example.fefu_course.ui.widget.AppBar
-import com.example.fefu_course.ui.widget.BaseButton
-import com.example.fefu_course.ui.widget.BaseTextField
-import com.example.fefu_course.ui.widget.PasswordTextField
+import com.example.fefu_course.presentation.ui.widget.AppBar
+import com.example.fefu_course.presentation.ui.widget.BaseButton
+import com.example.fefu_course.presentation.ui.widget.BaseTextField
+import com.example.fefu_course.presentation.ui.widget.PasswordTextField
 
 @Composable
 fun SignInScreen(navController: NavController) {
