@@ -62,25 +62,29 @@ fun SignUpScreen(navController: NavController) {
                 BaseTextField(
                     value = login,
                     onValueChange = { login = it },
-                    label = stringResource(id = R.string.login)
+                    label = stringResource(id = R.string.login),
+                    validate = null
                 )
 
                 BaseTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = stringResource(id = R.string.signup_screen_name)
+                    label = stringResource(id = R.string.signup_screen_name),
+                    validate = null
                 )
 
                 PasswordTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = stringResource(id = R.string.password)
+                    label = stringResource(id = R.string.password),
+                    validate = null
                 )
 
                 PasswordTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
-                    label = stringResource(id = R.string.signup_screen_password_repeat)
+                    label = stringResource(id = R.string.signup_screen_password_repeat),
+                    validate = null
                 )
 
                 Text(

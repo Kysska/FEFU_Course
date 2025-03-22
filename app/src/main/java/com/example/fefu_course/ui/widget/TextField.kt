@@ -18,14 +18,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.fefu_course.R
 import com.example.fefu_course.ui.theme.Typography
+import com.example.fefu_course.ui.theme.errorColor
 import com.example.fefu_course.ui.theme.primaryColor
 import com.example.fefu_course.ui.theme.textFieldBorderColor
 
 @Composable
-fun BaseTextField(
+private fun CommonTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String
+    label: String,
+    errorMessage: String?,
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     OutlinedTextField(
         value = value,
@@ -37,10 +43,37 @@ fun BaseTextField(
             focusedLabelColor = primaryColor,
             unfocusedLabelColor = textFieldBorderColor,
             unfocusedBorderColor = textFieldBorderColor,
-            focusedBorderColor = primaryColor
+            focusedBorderColor = primaryColor,
+            errorBorderColor = errorColor,
+            errorLabelColor = errorColor,
+            errorTextColor = errorColor
         ),
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true
+        isError = errorMessage != null,
+        supportingText = {
+            if (errorMessage != null) {
+                Text(text = errorMessage, color = errorColor)
+            }
+        },
+        modifier = modifier.fillMaxWidth(),
+        singleLine = true,
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        trailingIcon = trailingIcon
+    )
+}
+
+@Composable
+fun BaseTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    validate: String?
+) {
+    CommonTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = label,
+        errorMessage = validate
     )
 }
 
@@ -48,24 +81,16 @@ fun BaseTextField(
 fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String
+    label: String,
+    validate: String?
 ) {
     val isPasswordVisible = remember { mutableStateOf(false) }
 
-    OutlinedTextField(
+    CommonTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label, style = Typography.labelSmall) },
-        modifier = Modifier.fillMaxWidth(),
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedTextColor = textFieldBorderColor,
-            focusedTextColor = primaryColor,
-            focusedLabelColor = primaryColor,
-            unfocusedLabelColor = textFieldBorderColor,
-            unfocusedBorderColor = textFieldBorderColor,
-            focusedBorderColor = primaryColor
-        ),
-        singleLine = true,
+        label = label,
+        errorMessage = validate,
         visualTransformation = if (isPasswordVisible.value) {
             VisualTransformation.None
         } else {

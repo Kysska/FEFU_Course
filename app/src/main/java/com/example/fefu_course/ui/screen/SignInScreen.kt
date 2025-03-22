@@ -57,13 +57,15 @@ fun SignInScreen(navController: NavController) {
                 BaseTextField(
                     value = login,
                     onValueChange = { login = it },
-                    label = stringResource(id = R.string.login)
+                    label = stringResource(id = R.string.login),
+                    validate = null
                 )
 
                 PasswordTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = stringResource(id = R.string.password)
+                    label = stringResource(id = R.string.password),
+                    validate = null
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))

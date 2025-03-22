@@ -3,6 +3,7 @@
     <dimen name="button_corner_radius">8dp</dimen>
     <dimen name="button_height">60dp</dimen>
 
+    <dimen name="padding_xsmall">8dp</dimen>
     <dimen name="padding_small">16dp</dimen>
     <dimen name="padding_medium">24dp</dimen>
     <dimen name="padding_large">32dp</dimen>
