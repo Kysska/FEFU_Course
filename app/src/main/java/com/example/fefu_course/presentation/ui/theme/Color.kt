@@ -13,3 +13,4 @@ val boldTextColor = Color.Black
 val hintColor = Grey
 val textFieldBorderColor = LightGrey
 val background = Color.White
+val nullColor = Color.Transparent

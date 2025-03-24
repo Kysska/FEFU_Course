@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
 fun FEFUMobileTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable() -> Unit
 ) {
     val context = LocalContext.current
     val colorScheme = when {

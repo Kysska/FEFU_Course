@@ -21,6 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.fefu_course.R
+import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
+import com.example.fefu_course.presentation.navigation.Root
 import com.example.fefu_course.presentation.ui.widget.AppBar
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 import com.example.fefu_course.presentation.ui.widget.BaseTextField
@@ -28,6 +30,15 @@ import com.example.fefu_course.presentation.ui.widget.PasswordTextField
 
 @Composable
 fun SignInScreen(navController: NavController) {
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val navigateToMainRoot = {
+        navController.navigate(BottomNavigationRoot.Activity.route) {
+            popUpTo(Root.Auth.route) { inclusive = true }
+            launchSingleTop = true
+        }
+    }
+
     Scaffold(
         topBar = {
             AppBar(title = stringResource(id = R.string.signin_screen_title)) {
@@ -35,9 +46,6 @@ fun SignInScreen(navController: NavController) {
             }
         },
         content = { paddingValues ->
-
-            var login by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
 
             Column(
                 modifier = Modifier
@@ -74,9 +82,9 @@ fun SignInScreen(navController: NavController) {
                     text = stringResource(id = R.string.signin_screen_button),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(dimensionResource(id = R.dimen.button_height))
-                ) {
-                }
+                        .height(dimensionResource(id = R.dimen.button_height)),
+                    onClickListener = navigateToMainRoot
+                )
             }
         }
     )

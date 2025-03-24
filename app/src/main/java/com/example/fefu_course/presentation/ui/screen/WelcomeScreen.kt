@@ -22,12 +22,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.example.fefu_course.R
-import com.example.fefu_course.presentation.navigation.Screen
+import com.example.fefu_course.presentation.navigation.AuthScreen
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
+    val navigateToSignIn = { navController.navigate(AuthScreen.SignUp.route) }
+    val navigateToSignUp = { navController.navigate(AuthScreen.SignUp.route) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,17 +66,15 @@ fun WelcomeScreen(navController: NavController) {
 
         BaseButton(
             text = stringResource(id = R.string.signup),
-            modifier = Modifier.height(dimensionResource(id = R.dimen.button_height))
-        ) {
-            navController.navigate(Screen.SignUp.route)
-        }
+            modifier = Modifier.height(dimensionResource(id = R.dimen.button_height)),
+            onClickListener = navigateToSignIn
+        )
 
         Text(
             text = stringResource(id = R.string.welcome_screen_text_signin),
             style = Typography.labelMedium,
-            modifier = Modifier.clickable {
-                navController.navigate(Screen.SignIn.route)
-            }
+            modifier = Modifier.clickable(onClick = navigateToSignUp)
+
         )
     }
 }

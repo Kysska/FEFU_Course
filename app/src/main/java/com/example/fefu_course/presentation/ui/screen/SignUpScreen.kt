@@ -27,6 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fefu_course.R
+import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
+import com.example.fefu_course.presentation.navigation.Root
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.widget.AppBar
 import com.example.fefu_course.presentation.ui.widget.BaseButton
@@ -41,6 +43,12 @@ fun SignUpScreen(navController: NavController) {
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var selectedGender by remember { mutableStateOf("") }
+    val navigateToMainRoot = {
+        navController.navigate(BottomNavigationRoot.Activity.route) {
+            popUpTo(Root.Auth.route) { inclusive = true }
+            launchSingleTop = true
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -126,9 +134,9 @@ fun SignUpScreen(navController: NavController) {
                     text = stringResource(id = R.string.signup),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(dimensionResource(id = R.dimen.button_height))
-                ) {
-                }
+                        .height(dimensionResource(id = R.dimen.button_height)),
+                    onClickListener = navigateToMainRoot
+                )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))
 
