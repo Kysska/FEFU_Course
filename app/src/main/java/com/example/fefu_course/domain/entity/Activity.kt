@@ -12,7 +12,7 @@ data class Activity(
     val createdAt: Date = Date(),
     val accountName: String = "",
     val startTime: Date = Date(),
-    val endTime: Date =  Date(),
+    val endTime: Date = Date(),
     val comments: List<Comment> = emptyList()
 )
 
