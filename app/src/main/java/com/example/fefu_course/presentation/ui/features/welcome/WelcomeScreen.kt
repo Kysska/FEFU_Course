@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.screen
+package com.example.fefu_course.presentation.ui.features.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import com.example.fefu_course.presentation.ui.widget.BaseButton
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-    val navigateToSignIn = { navController.navigate(AuthScreen.SignUp.route) }
+    val navigateToSignIn = { navController.navigate(AuthScreen.SignIn.route) }
     val navigateToSignUp = { navController.navigate(AuthScreen.SignUp.route) }
 
     Column(
@@ -67,14 +67,13 @@ fun WelcomeScreen(navController: NavController) {
         BaseButton(
             text = stringResource(id = R.string.signup),
             modifier = Modifier.height(dimensionResource(id = R.dimen.button_height)),
-            onClickListener = navigateToSignIn
+            onClickListener = navigateToSignUp
         )
 
         Text(
             text = stringResource(id = R.string.welcome_screen_text_signin),
             style = Typography.labelMedium,
-            modifier = Modifier.clickable(onClick = navigateToSignUp)
-
+            modifier = Modifier.clickable(onClick = navigateToSignIn)
         )
     }
 }

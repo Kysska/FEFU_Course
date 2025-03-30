@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.screen.main
+package com.example.fefu_course.presentation.ui.screen.main.user
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column

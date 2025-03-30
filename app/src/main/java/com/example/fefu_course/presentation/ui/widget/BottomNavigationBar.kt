@@ -1,6 +1,5 @@
 package com.example.fefu_course.presentation.ui.widget
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -31,8 +30,7 @@ fun BottomNavigationBar(navController: NavController) {
     var selectedItem by remember { mutableStateOf(BottomNavigationRoot.Activity.route) }
 
     NavigationBar(
-        containerColor = Color.Transparent,
-        windowInsets = WindowInsets(0, 0, 0, 0)
+        containerColor = Color.Transparent
     ) {
         items.forEach { screen ->
             NavigationBarItem(

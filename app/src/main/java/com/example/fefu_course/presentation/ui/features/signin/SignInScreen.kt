@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.screen
+package com.example.fefu_course.presentation.ui.features.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +27,19 @@ import com.example.fefu_course.presentation.ui.widget.BaseTextField
 import com.example.fefu_course.presentation.ui.widget.PasswordTextField
 
 @Composable
-fun SignInScreen(navController: NavController) {
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+fun SignInScreen(
+    state: SignInState,
+    navController: NavController,
+    onLoginChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onSignIn: (SignInState) -> Boolean
+) {
     val navigateToMainRoot = {
-        navController.navigate(BottomNavigationRoot.Activity.route) {
-            popUpTo(Root.Auth.route) { inclusive = true }
-            launchSingleTop = true
+        if (onSignIn(state)) {
+            navController.navigate(BottomNavigationRoot.Activity.route) {
+                popUpTo(Root.Auth.route) { inclusive = true }
+                launchSingleTop = true
+            }
         }
     }
 
@@ -63,17 +67,17 @@ fun SignInScreen(navController: NavController) {
                 )
 
                 BaseTextField(
-                    value = login,
-                    onValueChange = { login = it },
+                    value = state.login,
+                    onValueChange = onLoginChanged,
                     label = stringResource(id = R.string.login),
-                    validate = null
+                    validate = state.loginError
                 )
 
                 PasswordTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = onPasswordChanged,
                     label = stringResource(id = R.string.password),
-                    validate = null
+                    validate = state.passwordError
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))

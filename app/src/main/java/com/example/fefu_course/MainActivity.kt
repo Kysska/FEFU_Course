@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FEFUMobileTheme(darkTheme = false, dynamicColor = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavigation(innerPadding)
+                    AppNavigation(innerPadding, this)
                 }
             }
         }

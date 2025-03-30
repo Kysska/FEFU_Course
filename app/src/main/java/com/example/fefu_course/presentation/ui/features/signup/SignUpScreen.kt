@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.screen
+package com.example.fefu_course.presentation.ui.features.signup
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,16 +35,22 @@ import com.example.fefu_course.presentation.ui.widget.FormattedText
 import com.example.fefu_course.presentation.ui.widget.PasswordTextField
 
 @Composable
-fun SignUpScreen(navController: NavController) {
-    var login by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    var selectedGender by remember { mutableStateOf("") }
+fun SignUpScreen(
+    signUpState: SignUpState,
+    navController: NavController,
+    onLoginChanged: (String) -> Unit,
+    onNameChanged: (String) -> Unit,
+    onPasswordChanged: (String) -> Unit,
+    onRetryPasswordChanged: (String) -> Unit,
+    onGenderChanged: (Gender) -> Unit,
+    onSignUp: (SignUpState) -> Boolean
+) {
     val navigateToMainRoot = {
-        navController.navigate(BottomNavigationRoot.Activity.route) {
-            popUpTo(Root.Auth.route) { inclusive = true }
-            launchSingleTop = true
+        if (onSignUp(signUpState)) {
+            navController.navigate(BottomNavigationRoot.Activity.route) {
+                popUpTo(Root.Auth.route) { inclusive = true }
+                launchSingleTop = true
+            }
         }
     }
 
@@ -68,31 +72,34 @@ fun SignUpScreen(navController: NavController) {
             ) {
 
                 BaseTextField(
-                    value = login,
-                    onValueChange = { login = it },
+                    value = signUpState.login,
+                    onValueChange = onLoginChanged,
                     label = stringResource(id = R.string.login),
-                    validate = null
+                    validate = signUpState.loginError
                 )
 
                 BaseTextField(
-                    value = name,
-                    onValueChange = { name = it },
+                    value = signUpState.name,
+                    onValueChange = onNameChanged,
                     label = stringResource(id = R.string.signup_screen_name),
-                    validate = null
+                    validate = signUpState.nameError
                 )
 
                 PasswordTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = signUpState.password,
+                    onValueChange = {
+                        onPasswordChanged(it)
+                        onRetryPasswordChanged(signUpState.passwordRetry)
+                    },
                     label = stringResource(id = R.string.password),
-                    validate = null
+                    validate = signUpState.passwordError
                 )
 
                 PasswordTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
+                    value = signUpState.passwordRetry,
+                    onValueChange = onRetryPasswordChanged,
                     label = stringResource(id = R.string.signup_screen_password_repeat),
-                    validate = null
+                    validate = signUpState.passwordRetryError
                 )
 
                 Text(
@@ -111,19 +118,19 @@ fun SignUpScreen(navController: NavController) {
                     horizontalAlignment = Alignment.Start
                 ) {
                     listOf(
-                        stringResource(id = R.string.signup_screen_gender_m),
-                        stringResource(id = R.string.signup_screen_gender_w),
-                        stringResource(id = R.string.signup_screen_gender_o)
+                        Gender.Men,
+                        Gender.Woman,
+                        Gender.Other
                     ).forEach { gender ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clickable { selectedGender = gender }
+                            modifier = Modifier.clickable { onGenderChanged(gender) }
                         ) {
                             RadioButton(
-                                selected = selectedGender == gender,
-                                onClick = { selectedGender = gender }
+                                selected = signUpState.gender == gender,
+                                onClick = { onGenderChanged(gender) }
                             )
-                            Text(text = gender, modifier = Modifier.padding(start = 8.dp))
+                            Text(text = gender.name, modifier = Modifier.padding(start = 8.dp))
                         }
                     }
                 }
