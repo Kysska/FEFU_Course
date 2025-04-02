@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.features.signin
+package com.example.fefu_course.presentation.features.signin
 
 import androidx.compose.runtime.Immutable
 
@@ -12,6 +12,6 @@ data class SignInState(
 ) {
     companion object {
         const val EMPTY_LOGIN = "Логин не может быть пустым"
-        const val PASSWORD_TOO_SHORT = "Пароль должен быть не меньше 6 символов"
+        const val PASSWORD_EMPTY = "Пароль не может быть пустым"
     }
 }

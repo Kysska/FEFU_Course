@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.features.welcome
+package com.example.fefu_course.presentation.features.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

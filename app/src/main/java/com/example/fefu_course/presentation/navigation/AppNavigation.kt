@@ -20,16 +20,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.fefu_course.presentation.ui.features.signin.SignInScreen
-import com.example.fefu_course.presentation.ui.features.signin.SignInViewModel
-import com.example.fefu_course.presentation.ui.features.signup.SignUpScreen
-import com.example.fefu_course.presentation.ui.features.signup.SignUpViewModel
-import com.example.fefu_course.presentation.ui.features.welcome.WelcomeScreen
-import com.example.fefu_course.presentation.ui.screen.main.activity.ActivityScreen
-import com.example.fefu_course.presentation.ui.screen.main.activity.MyActivity
-import com.example.fefu_course.presentation.ui.screen.main.activity.UserActivity
-import com.example.fefu_course.presentation.ui.screen.main.user.ProfileScreen
-import com.example.fefu_course.presentation.ui.screen.main.user.UserScreen
+import com.example.fefu_course.presentation.features.activity.ActivityScreen
+import com.example.fefu_course.presentation.features.activity.ActivityViewModel
+import com.example.fefu_course.presentation.features.activity.MyActivity
+import com.example.fefu_course.presentation.features.activity.UserActivity
+import com.example.fefu_course.presentation.features.signin.SignInScreen
+import com.example.fefu_course.presentation.features.signin.SignInViewModel
+import com.example.fefu_course.presentation.features.signup.SignUpScreen
+import com.example.fefu_course.presentation.features.signup.SignUpViewModel
+import com.example.fefu_course.presentation.features.user.ProfileScreen
+import com.example.fefu_course.presentation.features.user.UserScreen
+import com.example.fefu_course.presentation.features.welcome.WelcomeScreen
 import com.example.fefu_course.presentation.ui.widget.BottomNavigationBar
 
 @Composable
@@ -44,7 +45,7 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
 
     LaunchedEffect(currentRoute) {
         showBottomBar = when (currentRoute) {
-            Root.Auth.route, AuthScreen.Welcome.route, AuthScreen.SignUp.route, AuthScreen.SignIn.route -> false
+            Root.Auth.route, AuthScreen.Welcome.route, AuthScreen.SignUp.route, AuthScreen.SignIn.route, null -> false
             else -> true
         }
     }
@@ -52,7 +53,7 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                BottomNavigationBar(navController)
+                BottomNavigationBar(navController, currentRoute = currentRoute ?: "")
             }
         }
     ) { innerPadding ->
@@ -62,7 +63,7 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
             modifier = Modifier.padding(innerPadding)
         ) {
             addAuthRoot(navController, activity)
-            addActivityRoot(navController)
+            addActivityRoot(navController, activity)
             addUserRoot(navController)
         }
     }
@@ -79,12 +80,12 @@ private fun NavGraphBuilder.addAuthRoot(navController: NavController, activity: 
     }
 }
 
-fun NavGraphBuilder.addActivityRoot(navController: NavController) {
+fun NavGraphBuilder.addActivityRoot(navController: NavController, activity: ComponentActivity) {
     navigation(
         route = BottomNavigationRoot.Activity.route,
         startDestination = MainScreen.ActivityScreen.route
     ) {
-        addActivityScreen(navController)
+        addActivityScreen(navController, activity)
     }
 }
 
@@ -140,21 +141,25 @@ fun NavGraphBuilder.addUserScreen(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addActivityScreen(navController: NavController) {
+private fun NavGraphBuilder.addActivityScreen(navController: NavController, activity: ComponentActivity) {
     composable(MainScreen.ActivityScreen.route) {
-        ActivityScreen(navController)
+        val viewModel: ActivityViewModel =
+            ViewModelProvider(activity).get(ActivityViewModel::class.java)
+        ActivityScreen(navController, viewModel)
     }
 }
 
-fun NavGraphBuilder.addMyActivityScreen() {
+fun NavGraphBuilder.addMyActivityScreen(viewModel: ActivityViewModel) {
     composable(ActivityScreen.MyActivity.route) {
-        MyActivity()
+        val state by viewModel.myState.collectAsState()
+        MyActivity(state)
     }
 }
 
-fun NavGraphBuilder.addUserActivityScreen() {
+fun NavGraphBuilder.addUserActivityScreen(viewModel: ActivityViewModel) {
     composable(ActivityScreen.UserActivity.route) {
-        UserActivity()
+        val state by viewModel.userState.collectAsState()
+        UserActivity(state)
     }
 }
 
@@ -162,4 +167,7 @@ fun NavGraphBuilder.addProfileScreen() {
     composable(UserScreen.ProfileScreen.route) {
         ProfileScreen()
     }
+}
+
+fun NavGraphBuilder.addActivityDetailScreen() {
 }

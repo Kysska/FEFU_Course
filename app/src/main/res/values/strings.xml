@@ -30,4 +30,6 @@
 
     <string name="tab_row_my_activity">Моя</string>
     <string name="tab_row_user_activity">Пользователей</string>
+    <string name="empty_my_activities">Время потренить</string>
+    <string name="empty_my_activities_desc">Нажимай на кнопку ниже и начинаем \n трекать активность</string>
 </resources>

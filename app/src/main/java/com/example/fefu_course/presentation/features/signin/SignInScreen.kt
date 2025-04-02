@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.features.signin
+package com.example.fefu_course.presentation.features.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -22,6 +22,11 @@ val Typography = Typography(
         fontSize = 14.sp,
         color = hintColor
     ),
+    labelLarge = TextStyle(
+        fontWeight = FontWeight.Normal,
+        color = hintColor,
+        fontSize = 24.sp
+    ),
     labelMedium = TextStyle(
         fontWeight = FontWeight.Bold,
         color = primaryColor,

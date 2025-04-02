@@ -1,6 +1,5 @@
-package com.example.fefu_course.presentation.ui.screen.main.user
+package com.example.fefu_course.presentation.features.user
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -23,9 +22,5 @@ fun UserScreen(navController: NavController) {
         ) {
             addProfileScreen()
         }
-    }
-
-    BackHandler {
-        navController.popBackStack()
     }
 }

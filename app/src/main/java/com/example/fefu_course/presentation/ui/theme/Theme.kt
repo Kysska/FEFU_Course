@@ -18,9 +18,9 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = primaryColor,
-    surface = background,
+    surface = backgroundPrimary,
     onSurface = boldTextColor,
-    background = background,
+    background = backgroundPrimary,
     secondary = boldTextColor,
     tertiary = hintColor
 )
@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
 fun FEFUMobileTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    content: @Composable() -> Unit
+    content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
     val colorScheme = when {

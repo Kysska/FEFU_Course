@@ -1,6 +1,6 @@
-package com.example.fefu_course.presentation.ui.screen.main.activity
+package com.example.fefu_course.presentation.features.activity
 
-import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +18,7 @@ import com.example.fefu_course.presentation.navigation.ActivityScreen
 import com.example.fefu_course.presentation.navigation.addMyActivityScreen
 import com.example.fefu_course.presentation.navigation.addUserActivityScreen
 import com.example.fefu_course.presentation.ui.theme.Typography
+import com.example.fefu_course.presentation.ui.theme.backgroundSecondary
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ActivityScreen(navController: NavController) {
+fun ActivityScreen(navController: NavController, viewModel: ActivityViewModel) {
     val tabs = listOf(ActivityScreen.MyActivity, ActivityScreen.UserActivity)
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
@@ -56,21 +57,17 @@ fun ActivityScreen(navController: NavController) {
             modifier = Modifier.fillMaxSize()
         ) { page ->
             val tabNavController = rememberNavController()
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.fillMaxSize().background(backgroundSecondary)) {
                 NavHost(
                     navController = tabNavController,
                     startDestination = tabs[page].route
                 ) {
                     when (tabs[page]) {
-                        ActivityScreen.MyActivity -> addMyActivityScreen()
-                        ActivityScreen.UserActivity -> addUserActivityScreen()
+                        ActivityScreen.MyActivity -> addMyActivityScreen(viewModel)
+                        ActivityScreen.UserActivity -> addUserActivityScreen(viewModel)
                     }
                 }
             }
         }
-    }
-
-    BackHandler {
-        navController.popBackStack()
     }
 }

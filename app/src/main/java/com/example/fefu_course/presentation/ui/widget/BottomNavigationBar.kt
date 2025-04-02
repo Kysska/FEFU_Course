@@ -22,7 +22,7 @@ import com.example.fefu_course.presentation.ui.theme.nullColor
 import com.example.fefu_course.presentation.ui.theme.primaryColor
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, currentRoute: String) {
     val items = listOf(
         BottomNavigationRoot.Activity,
         BottomNavigationRoot.User
@@ -53,10 +53,10 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = selectedItem == screen.route,
                 onClick = {
                     navController.navigate(screen.route) {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }
+                    navController.popBackStack(currentRoute, inclusive = true)
                     selectedItem = screen.route
                 },
                 colors = NavigationBarItemDefaults.colors(

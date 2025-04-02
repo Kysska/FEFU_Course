@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.features.signup
+package com.example.fefu_course.presentation.features.signup
 
 import androidx.compose.runtime.Immutable
 

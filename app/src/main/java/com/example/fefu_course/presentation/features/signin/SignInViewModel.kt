@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.ui.features.signin
+package com.example.fefu_course.presentation.features.signin
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +27,6 @@ class SignInViewModel : ViewModel() {
     }
 
     private fun validatePassword(password: String): String? {
-        return if (password.length < 6) SignInState.PASSWORD_TOO_SHORT else null
+        return if (password.isEmpty()) SignInState.PASSWORD_EMPTY else null
     }
 }
