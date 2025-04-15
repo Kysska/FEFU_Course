@@ -1,11 +1,11 @@
 package com.example.fefu_course.presentation.utils
 
-import com.example.fefu_course.presentation.vo.ActivityItemListView
+import com.example.fefu_course.presentation.vo.ActivityView
 
-fun List<ActivityItemListView>.groupActivitiesByDate(): List<Pair<String, List<ActivityItemListView>>> {
+fun List<ActivityView>.groupActivitiesByDate(): List<Pair<String, List<ActivityView>>> {
     return this
         .groupBy { activity ->
-            activity.createdDate
+            activity.createdAt
         }
         .toList()
 }

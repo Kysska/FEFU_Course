@@ -1,100 +1,98 @@
 package com.example.fefu_course.presentation.features.activity.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.fefu_course.domain.entity.Activity
-import com.example.fefu_course.domain.entity.Comment
-import com.example.fefu_course.domain.entity.DistanceUnit
 import com.example.fefu_course.presentation.features.activity.state.ActivityState
-import com.example.fefu_course.presentation.vo.ActivityItemListView
+import com.example.fefu_course.presentation.vo.ActivityView
 import com.example.fefu_course.presentation.vo.CommentView
-import com.example.fefu_course.presentation.vo.mapper.ActivityViewMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-class ActivityViewModel(
-    private val mapper: ActivityViewMapper = ActivityViewMapper
-) : ViewModel() {
+class ActivityViewModel : ViewModel() {
     private val _myState = MutableStateFlow(ActivityState())
     val myState: StateFlow<ActivityState> = _myState.asStateFlow()
 
     private val _userState = MutableStateFlow(ActivityState())
     val userState: StateFlow<ActivityState> = _userState.asStateFlow()
 
-    private val _activityState = MutableStateFlow(ActivityItemListView())
-    val activityState: StateFlow<ActivityItemListView> = _activityState.asStateFlow()
+    private val _activityState = MutableStateFlow(ActivityView())
+    val activityState: StateFlow<ActivityView> = _activityState.asStateFlow()
 
-    private val myActivities = listOf<Activity>(
-        Activity(
+    private val myActivities = listOf<ActivityView>(
+        ActivityView(
             id = 1,
             title = "Серфинг \uD83C\uDFC4",
-            distance = 14.32,
-            distanceUnit = DistanceUnit.KILOMETERS,
-            createdAt = Date(System.currentTimeMillis() - 14 * 60 * 60 * 1000),
+            distance = "14.32 км",
+            createdDate = "14 часов назад",
+            createdAt = "Вчера",
             accountName = null,
-            startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("12:49")!!,
-            endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("17:31")!!,
+            duration = "2 часа 46 минут",
+            startTime = "12:36",
+            endTime = "17:31",
             comments = listOf(
-                Comment(id = 1, content = "Отличная работа!")
+                CommentView(id = 1, content = "Отличная работа!")
             )
         ),
-        Activity(
+        ActivityView(
             id = 2,
             title = "Велосипед  \uD83D\uDEB2",
-            distance = 1000.0,
-            distanceUnit = DistanceUnit.METERS,
-            createdAt = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse("29.05.2022")!!,
+            distance = "1 000 м",
+            createdDate = "29.05.2022",
+            createdAt = "Май 2022 года",
+            duration = "60 минут",
             accountName = null,
-            startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("14:49")!!,
-            endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("16:31")!!,
+            startTime = "14:39",
+            endTime = "16:31",
             comments = listOf(
-                Comment(id = 2, content = "Какой маршрут выбрали?")
+                CommentView(id = 2, content = "Какой маршрут выбрали?")
             )
-        ),
+        )
     )
 
-    private val userActivities = listOf<Activity>(
-        Activity(
+    private val userActivities = listOf<ActivityView>(
+        ActivityView(
             id = 3,
-            title = "Серфинг \uD83C\uDFC4",
-            distance = 14.32,
-            distanceUnit = DistanceUnit.KILOMETERS,
-            createdAt = Date(System.currentTimeMillis() - 14 * 60 * 60 * 1000),
-            accountName = "@rtuire",
-            startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("12:49")!!,
-            endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("17:31")!!,
+            title = "Серфинг",
+            distance = "14.32 км",
+            createdDate = "14 часов назад",
+            createdAt = "Вчера",
+            accountName = "@skfjeiijf",
+            duration = "2 часа 46 минут",
+            startTime = "14:36",
+            endTime = "17:31",
             comments = listOf(
-                Comment(id = 1, content = "Отличная работа!"),
+                CommentView(id = 3, content = "Отличная работа!")
             )
         ),
-        Activity(
+        ActivityView(
             id = 4,
-            title = "Велосипед  \uD83D\uDEB2",
-            distance = 1000.0,
-            distanceUnit = DistanceUnit.METERS,
-            createdAt = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse("29.05.2022")!!,
-            accountName = "@sgpf",
-            startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("14:49")!!,
-            endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("16:31")!!,
+            title = "Качели",
+            distance = "228 м",
+            createdDate = "14 часов назад",
+            createdAt = "Вчера",
+            accountName = "@548dg",
+            duration = "14 часов 48 минут",
+            startTime = "12:36",
+            endTime = "03:12",
             comments = listOf(
-                Comment(id = 2, content = "Какой маршрут выбрали?")
+                CommentView(id = 4, content = "Отличная работа!")
             )
         ),
-        Activity(
+        ActivityView(
             id = 5,
-            title = "Качели",
-            distance = 228.0,
-            distanceUnit = DistanceUnit.METERS,
-            createdAt = Date(System.currentTimeMillis() - 14 * 60 * 60 * 1000),
-            accountName = "@ssprs",
-            startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("17:49")!!,
-            endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse("19:31")!!,
-            comments = listOf()
-        )
+            title = "Езда на кадилак",
+            distance = "10 км",
+            createdDate = "14 часов назад",
+            createdAt = "Вчера",
+            accountName = "@ioeio67",
+            duration = "1 час 10 минут",
+            startTime = "12:36",
+            endTime = "13:46",
+            comments = listOf(
+                CommentView(id = 5, content = "Отличная работа!")
+            )
+        ),
     )
 
     init {
@@ -105,7 +103,7 @@ class ActivityViewModel(
     private fun loadMyActivities() {
         _myState.update {
             it.copy(
-                activities = myActivities.map { activityList -> mapper.map(activityList) }
+                activities = myActivities
             )
         }
     }
@@ -113,17 +111,16 @@ class ActivityViewModel(
     private fun loadUserActivities() {
         _userState.update {
             it.copy(
-                activities = userActivities.map { activityList -> mapper.map(activityList) }
+                activities = userActivities
             )
         }
     }
 
     fun getActivityById(id: Int) {
         val activity =
-            userActivities.find { it.id == id } ?: myActivities.find { it.id == id } ?: Activity()
-        val activityView = mapper.map(activity)
+            userActivities.find { it.id == id } ?: myActivities.find { it.id == id } ?: ActivityView()
         _activityState.update {
-            activityView
+            activity
         }
     }
 

@@ -23,10 +23,10 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.fefu_course.presentation.features.activity.screen.ActivityScreen
-import com.example.fefu_course.presentation.features.activity.viewmodel.ActivityViewModel
 import com.example.fefu_course.presentation.features.activity.screen.DetailActivityScreen
 import com.example.fefu_course.presentation.features.activity.screen.MyActivity
 import com.example.fefu_course.presentation.features.activity.screen.UserActivity
+import com.example.fefu_course.presentation.features.activity.viewmodel.ActivityViewModel
 import com.example.fefu_course.presentation.features.signin.SignInScreen
 import com.example.fefu_course.presentation.features.signin.SignInViewModel
 import com.example.fefu_course.presentation.features.signup.SignUpScreen

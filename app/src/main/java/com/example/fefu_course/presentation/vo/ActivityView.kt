@@ -1,6 +1,6 @@
 package com.example.fefu_course.presentation.vo
 
-data class ActivityItemListView(
+data class ActivityView(
     val id: Int = 0,
     val title: String = "",
     val distance: String = "",

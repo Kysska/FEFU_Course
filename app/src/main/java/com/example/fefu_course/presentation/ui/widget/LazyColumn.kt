@@ -14,10 +14,10 @@ import androidx.navigation.NavController
 import com.example.fefu_course.R
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.utils.groupActivitiesByDate
-import com.example.fefu_course.presentation.vo.ActivityItemListView
+import com.example.fefu_course.presentation.vo.ActivityView
 
 @Composable
-fun LazyColumnActivity(navController: NavController, activities: List<ActivityItemListView>) {
+fun LazyColumnActivity(navController: NavController, activities: List<ActivityView>) {
     val groupedMessages = activities.groupActivitiesByDate()
 
     LazyColumn(

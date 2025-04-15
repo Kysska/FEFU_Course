@@ -4,14 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -21,10 +18,10 @@ import androidx.navigation.NavController
 import com.example.fefu_course.R
 import com.example.fefu_course.presentation.navigation.MainScreen
 import com.example.fefu_course.presentation.ui.theme.Typography
-import com.example.fefu_course.presentation.vo.ActivityItemListView
+import com.example.fefu_course.presentation.vo.ActivityView
 
 @Composable
-fun ActivityCard(navController: NavController, activity: ActivityItemListView) {
+fun ActivityCard(navController: NavController, activity: ActivityView) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +57,7 @@ fun ActivityCard(navController: NavController, activity: ActivityItemListView) {
             }
 
             Row(
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xsmall)),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xsmall))
             ) {
                 Text(
                     text = activity.duration,
@@ -83,7 +80,7 @@ fun ActivityCard(navController: NavController, activity: ActivityItemListView) {
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = activity.createdAt,
+                    text = activity.createdDate,
                     style = Typography.bodySmall,
                     textAlign = TextAlign.End,
                     modifier = Modifier.weight(1f)
