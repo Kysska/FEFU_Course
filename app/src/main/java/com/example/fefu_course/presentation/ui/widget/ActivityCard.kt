@@ -1,5 +1,6 @@
 package com.example.fefu_course.presentation.ui.widget
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,21 +17,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.fefu_course.R
+import com.example.fefu_course.presentation.navigation.MainScreen
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.vo.ActivityItemListView
 
 @Composable
-fun ActivityCard(activity: ActivityItemListView, userName: String?) {
+fun ActivityCard(navController: NavController, activity: ActivityItemListView) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
                 vertical = dimensionResource(id = R.dimen.padding_small),
-                horizontal = dimensionResource(
-                    id = R.dimen.padding_xsmall
-                )
-            ),
+                horizontal = dimensionResource(id = R.dimen.padding_xsmall)
+            )
+            .clickable {
+                navController.navigate(MainScreen.ActivityDetail.createRoute(activity.id))
+            },
         elevation = 4.dp,
         backgroundColor = Color.White
     ) {
@@ -38,10 +42,8 @@ fun ActivityCard(activity: ActivityItemListView, userName: String?) {
             modifier = Modifier
                 .padding(
                     vertical = dimensionResource(id = R.dimen.padding_medium),
-                    horizontal = dimensionResource(
-                        id = R.dimen.padding_xsmall
-                    )
-                ),
+                    horizontal = dimensionResource(id = R.dimen.padding_xsmall)
+                )
         ) {
             Row(
                 modifier = Modifier
@@ -54,9 +56,7 @@ fun ActivityCard(activity: ActivityItemListView, userName: String?) {
                     style = Typography.displayLarge
                 )
 
-                if (userName != null) {
-                    Text(text = userName, style = Typography.titleSmall, textAlign = TextAlign.End)
-                }
+                Text(text = activity.accountName ?: "", style = Typography.titleSmall, textAlign = TextAlign.End)
             }
 
             Row(

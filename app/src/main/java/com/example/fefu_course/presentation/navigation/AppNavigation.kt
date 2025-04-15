@@ -15,15 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.fefu_course.presentation.features.activity.ActivityScreen
-import com.example.fefu_course.presentation.features.activity.ActivityViewModel
-import com.example.fefu_course.presentation.features.activity.MyActivity
-import com.example.fefu_course.presentation.features.activity.UserActivity
+import androidx.navigation.navArgument
+import com.example.fefu_course.presentation.features.activity.screen.ActivityScreen
+import com.example.fefu_course.presentation.features.activity.viewmodel.ActivityViewModel
+import com.example.fefu_course.presentation.features.activity.screen.DetailActivityScreen
+import com.example.fefu_course.presentation.features.activity.screen.MyActivity
+import com.example.fefu_course.presentation.features.activity.screen.UserActivity
 import com.example.fefu_course.presentation.features.signin.SignInScreen
 import com.example.fefu_course.presentation.features.signin.SignInViewModel
 import com.example.fefu_course.presentation.features.signup.SignUpScreen
@@ -45,8 +48,8 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
 
     LaunchedEffect(currentRoute) {
         showBottomBar = when (currentRoute) {
-            Root.Auth.route, AuthScreen.Welcome.route, AuthScreen.SignUp.route, AuthScreen.SignIn.route, null -> false
-            else -> true
+            MainScreen.ActivityScreen.route, MainScreen.UserScreen.route -> true
+            else -> false
         }
     }
 
@@ -85,7 +88,10 @@ fun NavGraphBuilder.addActivityRoot(navController: NavController, activity: Comp
         route = BottomNavigationRoot.Activity.route,
         startDestination = MainScreen.ActivityScreen.route
     ) {
-        addActivityScreen(navController, activity)
+        val viewModel: ActivityViewModel =
+            ViewModelProvider(activity).get(ActivityViewModel::class.java)
+        addActivityScreen(navController, viewModel)
+        addActivityDetailScreen(navController, viewModel)
     }
 }
 
@@ -141,25 +147,32 @@ fun NavGraphBuilder.addUserScreen(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addActivityScreen(navController: NavController, activity: ComponentActivity) {
+private fun NavGraphBuilder.addActivityScreen(
+    navController: NavController,
+    viewModel: ActivityViewModel
+) {
     composable(MainScreen.ActivityScreen.route) {
-        val viewModel: ActivityViewModel =
-            ViewModelProvider(activity).get(ActivityViewModel::class.java)
         ActivityScreen(navController, viewModel)
     }
 }
 
-fun NavGraphBuilder.addMyActivityScreen(viewModel: ActivityViewModel) {
+fun NavGraphBuilder.addMyActivityScreen(
+    navController: NavController,
+    viewModel: ActivityViewModel
+) {
     composable(ActivityScreen.MyActivity.route) {
         val state by viewModel.myState.collectAsState()
-        MyActivity(state)
+        MyActivity(navController, state)
     }
 }
 
-fun NavGraphBuilder.addUserActivityScreen(viewModel: ActivityViewModel) {
+fun NavGraphBuilder.addUserActivityScreen(
+    navController: NavController,
+    viewModel: ActivityViewModel
+) {
     composable(ActivityScreen.UserActivity.route) {
         val state by viewModel.userState.collectAsState()
-        UserActivity(state)
+        UserActivity(navController, state)
     }
 }
 
@@ -169,5 +182,12 @@ fun NavGraphBuilder.addProfileScreen() {
     }
 }
 
-fun NavGraphBuilder.addActivityDetailScreen() {
+fun NavGraphBuilder.addActivityDetailScreen(navController: NavController, viewModel: ActivityViewModel) {
+    composable(
+        route = MainScreen.ActivityDetail.route,
+        arguments = listOf(navArgument("activityId") { type = NavType.IntType })
+    ) { entry ->
+        val activityId = entry.arguments?.getInt("activityId") ?: return@composable
+        DetailActivityScreen(navController, activityId, viewModel)
+    }
 }

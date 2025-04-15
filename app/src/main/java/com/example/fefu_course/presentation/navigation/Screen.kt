@@ -21,11 +21,16 @@ sealed class AuthScreen(val route: String) {
 sealed class MainScreen(val route: String) {
     data object ActivityScreen : MainScreen("activity")
     data object UserScreen : MainScreen("user")
+    data object ActivityDetail : MainScreen("activity_detail/{activityId}") {
+        fun createRoute(id: Int): String {
+            return "activity_detail/$id"
+        }
+    }
 }
 
 sealed class ActivityScreen(val route: String, val labelResId: Int) {
-    data object UserActivity : ActivityScreen("userActivity", R.string.tab_row_user_activity)
-    data object MyActivity : ActivityScreen("myActivity", R.string.tab_row_my_activity)
+    data object UserActivity : ActivityScreen("userActivity", R.string.user_activity_tab_row)
+    data object MyActivity : ActivityScreen("myActivity", R.string.my_activity_tab_row)
 }
 
 sealed class UserScreen(val route: String) {

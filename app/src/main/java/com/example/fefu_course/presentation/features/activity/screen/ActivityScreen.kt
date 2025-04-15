@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.features.activity
+package com.example.fefu_course.presentation.features.activity.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.fefu_course.presentation.features.activity.viewmodel.ActivityViewModel
 import com.example.fefu_course.presentation.navigation.ActivityScreen
 import com.example.fefu_course.presentation.navigation.addMyActivityScreen
 import com.example.fefu_course.presentation.navigation.addUserActivityScreen
@@ -63,8 +64,8 @@ fun ActivityScreen(navController: NavController, viewModel: ActivityViewModel) {
                     startDestination = tabs[page].route
                 ) {
                     when (tabs[page]) {
-                        ActivityScreen.MyActivity -> addMyActivityScreen(viewModel)
-                        ActivityScreen.UserActivity -> addUserActivityScreen(viewModel)
+                        ActivityScreen.MyActivity -> addMyActivityScreen(navController, viewModel)
+                        ActivityScreen.UserActivity -> addUserActivityScreen(navController, viewModel)
                     }
                 }
             }

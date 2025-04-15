@@ -1,4 +1,4 @@
-package com.example.fefu_course.presentation.features.activity
+package com.example.fefu_course.presentation.features.activity.state
 
 import com.example.fefu_course.presentation.vo.ActivityItemListView
 

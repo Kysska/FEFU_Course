@@ -28,8 +28,16 @@
     <string name="bottom_navigation_activity">Активность</string>
     <string name="bottom_navigation_user">Пользователь</string>
 
-    <string name="tab_row_my_activity">Моя</string>
-    <string name="tab_row_user_activity">Пользователей</string>
-    <string name="empty_my_activities">Время потренить</string>
-    <string name="empty_my_activities_desc">Нажимай на кнопку ниже и начинаем \n трекать активность</string>
+    <string name="my_activity_tab_row">Моя</string>
+
+    <string name="user_activity_tab_row">Пользователей</string>
+
+    <string name="my_activities_empty">Время потренить</string>
+    <string name="my_activities_desc_empty">Нажимай на кнопку ниже и начинаем \n трекать активность</string>
+
+    <string name="detail_activity_start_text">Начало:</string>
+    <string name="detail_activity_end_text">Конец:</string>
+    <string name="detail_activity_comment">Комментарий</string>
+
+    <string name="time_text_separator">|</string>
 </resources>

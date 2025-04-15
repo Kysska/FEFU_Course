@@ -12,11 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -28,11 +25,11 @@ import com.example.fefu_course.R
 import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
 import com.example.fefu_course.presentation.navigation.Root
 import com.example.fefu_course.presentation.ui.theme.Typography
-import com.example.fefu_course.presentation.ui.widget.AppBar
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 import com.example.fefu_course.presentation.ui.widget.BaseTextField
 import com.example.fefu_course.presentation.ui.widget.FormattedText
 import com.example.fefu_course.presentation.ui.widget.PasswordTextField
+import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
 
 @Composable
 fun SignUpScreen(
@@ -54,17 +51,13 @@ fun SignUpScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            AppBar(title = stringResource(id = R.string.signup_screen_title)) {
-                navController.navigateUp()
-            }
-        },
-        content = { paddingValues ->
+    ScaffoldWithOptionalAppBar(
+        showAppBar = true,
+        onClickBackButton = { navController.navigateUp() },
+        content = {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -21,10 +20,10 @@ import androidx.navigation.NavController
 import com.example.fefu_course.R
 import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
 import com.example.fefu_course.presentation.navigation.Root
-import com.example.fefu_course.presentation.ui.widget.AppBar
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 import com.example.fefu_course.presentation.ui.widget.BaseTextField
 import com.example.fefu_course.presentation.ui.widget.PasswordTextField
+import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
 
 @Composable
 fun SignInScreen(
@@ -43,18 +42,14 @@ fun SignInScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            AppBar(title = stringResource(id = R.string.signin_screen_title)) {
-                navController.navigateUp()
-            }
-        },
-        content = { paddingValues ->
+    ScaffoldWithOptionalAppBar(
+        showAppBar = true,
+        onClickBackButton = { navController.navigateUp() },
+        content = {
 
-            Column(
+        Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
                     .padding(dimensionResource(id = R.dimen.padding_small)),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.spacer_small))

@@ -17,8 +17,8 @@ import com.example.fefu_course.presentation.ui.theme.Typography
 @Composable
 fun EmptyActivities() {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(modifier = Modifier, text = stringResource(R.string.empty_my_activities), style = Typography.displayLarge)
-        Text(text = stringResource(R.string.empty_my_activities_desc),
+        Text(modifier = Modifier, text = stringResource(R.string.my_activities_empty), style = Typography.displayLarge)
+        Text(text = stringResource(R.string.my_activities_desc_empty),
             modifier = Modifier
                 .padding(
                     top = dimensionResource(

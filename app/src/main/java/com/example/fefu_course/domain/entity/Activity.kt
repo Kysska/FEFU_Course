@@ -8,7 +8,7 @@ data class Activity(
     val distance: Double = 0.0,
     val distanceUnit: DistanceUnit = DistanceUnit.METERS,
     val createdAt: Date = Date(),
-    val accountName: String = "",
+    val accountName: String? = null,
     val startTime: Date = Date(),
     val endTime: Date = Date(),
     val comments: List<Comment> = emptyList()

@@ -1,6 +1,8 @@
 package com.example.fefu_course.presentation.ui.widget
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.example.fefu_course.R
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.theme.errorColor
@@ -31,7 +34,10 @@ private fun CommonTextField(
     modifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    trailingIcon: @Composable (() -> Unit)? = null
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    maxLines: Int = 1,
+    singleLine: Boolean = true
 ) {
     OutlinedTextField(
         value = value,
@@ -55,10 +61,12 @@ private fun CommonTextField(
             }
         },
         modifier = modifier.fillMaxWidth(),
-        singleLine = true,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        trailingIcon = trailingIcon
+        keyboardActions = keyboardActions,
+        trailingIcon = trailingIcon,
+        singleLine = singleLine,
+        maxLines = maxLines
     )
 }
 
@@ -74,6 +82,32 @@ fun BaseTextField(
         onValueChange = onValueChange,
         label = label,
         errorMessage = validate
+    )
+}
+
+@Composable
+fun MultilineTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    validate: String?,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
+    maxLines: Int = 5,
+    singleLine: Boolean = false
+) {
+    CommonTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = label,
+        errorMessage = validate,
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions,
+        maxLines = maxLines,
+        singleLine = singleLine,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 90.dp)
     )
 }
 
