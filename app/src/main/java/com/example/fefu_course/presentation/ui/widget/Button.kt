@@ -17,6 +17,7 @@ import com.example.fefu_course.presentation.ui.theme.primaryColor
 fun BaseButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClickListener: () -> Unit
 ) {
     Button(
@@ -25,6 +26,7 @@ fun BaseButton(
             containerColor = primaryColor,
             contentColor = Color.White
         ),
+        enabled = enabled,
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.button_corner_radius)),
         modifier = modifier
     ) {
