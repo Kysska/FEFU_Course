@@ -39,21 +39,16 @@ import com.example.fefu_course.presentation.ui.theme.backgroundSecondary
 import com.example.fefu_course.presentation.ui.theme.primaryColor
 import com.example.fefu_course.presentation.ui.widget.MultilineTextField
 import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
+import com.example.fefu_course.presentation.vo.ActivityView
 import com.example.fefu_course.presentation.vo.CommentView
 
 @Composable
 fun DetailActivityScreen(
-    navController: NavController,
-    activityId: Int,
-    activityViewModel: ActivityViewModel
+    activityState: ActivityView,
+    onAddComment: (activity: CommentView) -> Unit,
+    navController: NavController
 ) {
-    val activityState by activityViewModel.activityState.collectAsState()
-
     var newComment by remember { mutableStateOf("") }
-
-    LaunchedEffect(activityId) {
-        activityViewModel.getActivityById(activityId)
-    }
 
     val scrollState = rememberScrollState()
 
@@ -155,7 +150,7 @@ fun DetailActivityScreen(
                                         id = activityState.comments.size + 1,
                                         content = newComment
                                     )
-                                activityViewModel.addComment(commentView)
+                                onAddComment(commentView)
                                 newComment = ""
                             }
                         }

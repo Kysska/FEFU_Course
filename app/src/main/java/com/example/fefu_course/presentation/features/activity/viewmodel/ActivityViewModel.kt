@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import com.example.fefu_course.presentation.features.activity.state.ActivityState
 import com.example.fefu_course.presentation.vo.ActivityView
 import com.example.fefu_course.presentation.vo.CommentView
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class ActivityViewModel : ViewModel() {
+@HiltViewModel
+class ActivityViewModel @Inject constructor() : ViewModel() {
     private val _myState = MutableStateFlow(ActivityState())
     val myState: StateFlow<ActivityState> = _myState.asStateFlow()
 

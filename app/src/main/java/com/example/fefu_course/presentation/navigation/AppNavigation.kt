@@ -1,6 +1,5 @@
 package com.example.fefu_course.presentation.navigation
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -37,7 +36,7 @@ import com.example.fefu_course.presentation.features.welcome.WelcomeScreen
 import com.example.fefu_course.presentation.ui.widget.BottomNavigationBar
 
 @Composable
-fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity) {
+fun AppNavigation(innerPaddingValues: PaddingValues) {
     val navController = rememberNavController()
     val isLoggedIn = false
 
@@ -53,6 +52,8 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
         }
     }
 
+    val activityViewModel = hiltViewModel<ActivityViewModel>()
+
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
@@ -65,33 +66,34 @@ fun AppNavigation(innerPaddingValues: PaddingValues, activity: ComponentActivity
             startDestination = if (!isLoggedIn) Root.Auth.route else BottomNavigationRoot.Activity.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            addAuthRoot(navController, activity)
-            addActivityRoot(navController, activity)
+            addAuthRoot(navController)
+            addActivityRoot(navController, activityViewModel)
             addUserRoot(navController)
         }
     }
 }
 
-private fun NavGraphBuilder.addAuthRoot(navController: NavController, activity: ComponentActivity) {
+private fun NavGraphBuilder.addAuthRoot(navController: NavController) {
     navigation(
         route = Root.Auth.route,
         startDestination = AuthScreen.Welcome.route
     ) {
         addWelcome(navController)
-        addSignup(navController, activity)
-        addSignin(navController, activity)
+        addSignup(navController)
+        addSignin(navController)
     }
 }
 
-fun NavGraphBuilder.addActivityRoot(navController: NavController, activity: ComponentActivity) {
+fun NavGraphBuilder.addActivityRoot(
+    navController: NavController,
+    activityViewModel: ActivityViewModel
+) {
     navigation(
         route = BottomNavigationRoot.Activity.route,
         startDestination = MainScreen.ActivityScreen.route
     ) {
-        val viewModel: ActivityViewModel =
-            ViewModelProvider(activity).get(ActivityViewModel::class.java)
-        addActivityScreen(navController, viewModel)
-        addActivityDetailScreen(navController, viewModel)
+        addActivityScreen(navController, activityViewModel)
+        addActivityDetailScreen(navController, activityViewModel)
     }
 }
 
@@ -110,10 +112,9 @@ private fun NavGraphBuilder.addWelcome(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addSignup(navController: NavController, activity: ComponentActivity) {
+private fun NavGraphBuilder.addSignup(navController: NavController) {
     composable(AuthScreen.SignUp.route) {
-        val viewModel: SignUpViewModel =
-            ViewModelProvider(activity).get(SignUpViewModel::class.java)
+        val viewModel = hiltViewModel<SignUpViewModel>()
         val state by viewModel.state.collectAsState()
         SignUpScreen(signUpState = state,
             navController = navController,
@@ -127,10 +128,9 @@ private fun NavGraphBuilder.addSignup(navController: NavController, activity: Co
     }
 }
 
-private fun NavGraphBuilder.addSignin(navController: NavController, activity: ComponentActivity) {
+private fun NavGraphBuilder.addSignin(navController: NavController) {
     composable(AuthScreen.SignIn.route) {
-        val viewModel: SignInViewModel =
-            ViewModelProvider(activity).get(SignInViewModel::class.java)
+        val viewModel = hiltViewModel<SignInViewModel>()
         val state by viewModel.state.collectAsState()
 
         SignInScreen(state = state,
@@ -182,12 +182,27 @@ fun NavGraphBuilder.addProfileScreen() {
     }
 }
 
-fun NavGraphBuilder.addActivityDetailScreen(navController: NavController, viewModel: ActivityViewModel) {
+fun NavGraphBuilder.addActivityDetailScreen(
+    navController: NavController,
+    viewModel: ActivityViewModel
+) {
     composable(
         route = MainScreen.ActivityDetail.route,
         arguments = listOf(navArgument("activityId") { type = NavType.IntType })
     ) { entry ->
         val activityId = entry.arguments?.getInt("activityId") ?: return@composable
-        DetailActivityScreen(navController, activityId, viewModel)
+        LaunchedEffect(activityId) {
+            viewModel.getActivityById(activityId)
+        }
+
+        val activityState by viewModel.activityState.collectAsState()
+
+        DetailActivityScreen(
+            activityState = activityState,
+            onAddComment = { comment ->
+                viewModel.addComment(comment)
+            },
+            navController = navController
+        )
     }
 }

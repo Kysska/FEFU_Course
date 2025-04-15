@@ -2,12 +2,15 @@ package com.example.fefu_course.presentation.features.signup
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor() : ViewModel() {
     private val _state = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> = _state.asStateFlow()
 
