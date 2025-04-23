@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -94,7 +95,8 @@ fun MultilineTextField(
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     maxLines: Int = 5,
-    singleLine: Boolean = false
+    singleLine: Boolean = false,
+    modifier: Modifier
 ) {
     CommonTextField(
         value = value,
@@ -105,7 +107,7 @@ fun MultilineTextField(
         keyboardOptions = keyboardOptions,
         maxLines = maxLines,
         singleLine = singleLine,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 90.dp)
     )
@@ -151,5 +153,23 @@ fun PasswordTextField(
                 )
             }
         }
+    )
+}
+
+@Composable
+fun CommentInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onSubmit: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    MultilineTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = stringResource(R.string.detail_activity_comment),
+        validate = null,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+        keyboardActions = KeyboardActions(onSend = { onSubmit() }),
+        modifier = modifier
     )
 }

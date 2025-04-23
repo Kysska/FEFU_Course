@@ -20,10 +20,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.fefu_course.R
-import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
-import com.example.fefu_course.presentation.navigation.Root
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 import com.example.fefu_course.presentation.ui.widget.BaseTextField
@@ -34,26 +31,25 @@ import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
 @Composable
 fun SignUpScreen(
     signUpState: SignUpState,
-    navController: NavController,
     onLoginChanged: (String) -> Unit,
     onNameChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     onRetryPasswordChanged: (String) -> Unit,
     onGenderChanged: (Gender) -> Unit,
-    onSignUp: (SignUpState) -> Boolean
+    onSignUp: () -> Unit,
+    onNavigateToMainRoot: () -> Unit,
+    onBackNavigate: () -> Unit
 ) {
     val navigateToMainRoot = {
-        if (onSignUp(signUpState)) {
-            navController.navigate(BottomNavigationRoot.Activity.route) {
-                popUpTo(Root.Auth.route) { inclusive = true }
-                launchSingleTop = true
-            }
+        onSignUp()
+        if (signUpState.isSuccess) {
+            onNavigateToMainRoot()
         }
     }
 
     ScaffoldWithOptionalAppBar(
         showAppBar = true,
-        onClickBackButton = { navController.navigateUp() },
+        onClickBackButton = onBackNavigate,
         content = {
             Column(
                 modifier = Modifier

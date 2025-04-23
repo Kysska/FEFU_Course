@@ -13,7 +13,9 @@ data class SignUpState(
     val loginError: String? = null,
     val nameError: String? = null,
     val passwordError: String? = null,
-    val passwordRetryError: String? = null
+    val passwordRetryError: String? = null,
+    val error: String? = null,
+    val isSuccess: Boolean = false
 ) {
     companion object {
         const val EMPTY_LOGIN = "Логин не может быть пустым"

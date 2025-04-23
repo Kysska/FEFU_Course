@@ -10,14 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavController
 import com.example.fefu_course.R
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.utils.groupActivitiesByDate
 import com.example.fefu_course.presentation.vo.ActivityView
 
 @Composable
-fun LazyColumnActivity(navController: NavController, activities: List<ActivityView>) {
+fun LazyColumnActivity(
+    activities: List<ActivityView>,
+    onNavigateToActivityDetail: (id: Int) -> Unit
+) {
     val groupedMessages = activities.groupActivitiesByDate()
 
     LazyColumn(
@@ -35,8 +37,13 @@ fun LazyColumnActivity(navController: NavController, activities: List<ActivityVi
                     style = Typography.labelLarge
                 )
             }
-            itemsIndexed(activitiesForDate) { index, activity ->
-                 ActivityCard(navController, activity = activity)
+            itemsIndexed(activitiesForDate,
+                key = { _, activity ->
+                    activity.id
+                }) { _, activity ->
+                ActivityCard(activity = activity) { id: Int ->
+                    onNavigateToActivityDetail(id)
+                }
             }
         }
     }

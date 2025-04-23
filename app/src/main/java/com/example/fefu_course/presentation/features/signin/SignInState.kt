@@ -8,7 +8,9 @@ data class SignInState(
     val password: String = "",
     val isLoading: Boolean = false,
     val loginError: String? = null,
-    val passwordError: String? = null
+    val passwordError: String? = null,
+    val error: String? = null,
+    val isSuccess: Boolean = false
 ) {
     companion object {
         const val EMPTY_LOGIN = "Логин не может быть пустым"

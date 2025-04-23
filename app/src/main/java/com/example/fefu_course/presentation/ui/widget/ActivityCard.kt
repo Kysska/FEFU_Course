@@ -14,14 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.fefu_course.R
-import com.example.fefu_course.presentation.navigation.MainScreen
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.vo.ActivityView
 
 @Composable
-fun ActivityCard(navController: NavController, activity: ActivityView) {
+fun ActivityCard(activity: ActivityView, onNavigateToActivityDetail: (id: Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,7 +28,7 @@ fun ActivityCard(navController: NavController, activity: ActivityView) {
                 horizontal = dimensionResource(id = R.dimen.padding_xsmall)
             )
             .clickable {
-                navController.navigate(MainScreen.ActivityDetail.createRoute(activity.id))
+                onNavigateToActivityDetail(activity.id)
             },
         elevation = 4.dp,
         backgroundColor = Color.White

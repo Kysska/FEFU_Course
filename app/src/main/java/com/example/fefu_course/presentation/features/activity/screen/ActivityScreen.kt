@@ -11,13 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.fefu_course.presentation.features.activity.viewmodel.ActivityViewModel
-import com.example.fefu_course.presentation.navigation.ActivityScreen
-import com.example.fefu_course.presentation.navigation.addMyActivityScreen
-import com.example.fefu_course.presentation.navigation.addUserActivityScreen
+import com.example.fefu_course.presentation.features.activity.navigation.addMyActivityScreen
+import com.example.fefu_course.presentation.features.activity.navigation.addUserActivityScreen
+import com.example.fefu_course.presentation.features.activity.state.ActivityState
+import com.example.fefu_course.presentation.navigation.ActivityTab
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.theme.backgroundSecondary
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -27,8 +26,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ActivityScreen(navController: NavController, viewModel: ActivityViewModel) {
-    val tabs = listOf(ActivityScreen.MyActivity, ActivityScreen.UserActivity)
+fun ActivityScreen(myState: ActivityState, userState: ActivityState, onNavigateToActivityDetail: (id: Int) -> Unit) {
+    val tabs = listOf(ActivityTab.MyActivity, ActivityTab.UserActivity)
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
@@ -64,8 +63,12 @@ fun ActivityScreen(navController: NavController, viewModel: ActivityViewModel) {
                     startDestination = tabs[page].route
                 ) {
                     when (tabs[page]) {
-                        ActivityScreen.MyActivity -> addMyActivityScreen(navController, viewModel)
-                        ActivityScreen.UserActivity -> addUserActivityScreen(navController, viewModel)
+                        ActivityTab.MyActivity -> addMyActivityScreen(myState) { id: Int ->
+                            onNavigateToActivityDetail(id)
+                        }
+                        ActivityTab.UserActivity -> addUserActivityScreen(userState) { id: Int ->
+                            onNavigateToActivityDetail(id)
+                        }
                     }
                 }
             }

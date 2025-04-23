@@ -1,12 +1,14 @@
 package com.example.fefu_course.presentation.features.signin
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SignInViewModel @Inject constructor() : ViewModel() {
@@ -21,8 +23,22 @@ class SignInViewModel @Inject constructor() : ViewModel() {
         _state.update { it.copy(password = password, passwordError = validatePassword(password)) }
     }
 
-    fun signIn(state: SignInState): Boolean {
-        return validateLogin(state.login) == null && validatePassword(state.password) == null
+    fun signIn() {
+        viewModelScope.launch {
+            val currentState = _state.value
+
+            if (validateLogin(currentState.login) != null || validatePassword(currentState.password) != null) {
+                return@launch
+            }
+
+            _state.update { it.copy(isLoading = true, error = null, isSuccess = false) }
+
+            try {
+                _state.update { it.copy(isLoading = false, isSuccess = true) }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, error = e.message ?: "Неизвестная ошибка") }
+            }
+        }
     }
 
     private fun validateLogin(login: String): String? {

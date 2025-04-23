@@ -1,13 +1,14 @@
 package com.example.fefu_course.presentation.features.signup
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor() : ViewModel() {
@@ -39,10 +40,23 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         _state.update { it.copy(gender = gender) }
     }
 
-    fun signUp(state: SignUpState): Boolean {
-        Log.d("state", state.toString())
-        return validateLogin(state.login) == null && validateName(state.name) == null &&
-                validatePassword(state.password) == null && validatePasswordRetry(state.passwordRetry) == null
+    fun signUp() {
+        viewModelScope.launch {
+            val currentState = _state.value
+
+            if (validateLogin(currentState.login) == null && validateName(currentState.name) == null &&
+                validatePassword(currentState.password) == null && validatePasswordRetry(currentState.passwordRetry) == null) {
+                return@launch
+            }
+
+            _state.update { it.copy(isLoading = true, error = null, isSuccess = false) }
+
+            try {
+                _state.update { it.copy(isLoading = false, isSuccess = true) }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, error = e.message ?: "Неизвестная ошибка") }
+            }
+        }
     }
 
     private fun validateLogin(login: String): String? {

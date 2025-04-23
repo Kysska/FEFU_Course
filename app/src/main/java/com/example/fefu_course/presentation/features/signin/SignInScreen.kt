@@ -14,10 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
 import com.example.fefu_course.R
-import com.example.fefu_course.presentation.navigation.BottomNavigationRoot
-import com.example.fefu_course.presentation.navigation.Root
 import com.example.fefu_course.presentation.ui.widget.BaseButton
 import com.example.fefu_course.presentation.ui.widget.BaseTextField
 import com.example.fefu_course.presentation.ui.widget.PasswordTextField
@@ -26,23 +23,22 @@ import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
 @Composable
 fun SignInScreen(
     state: SignInState,
-    navController: NavController,
     onLoginChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
-    onSignIn: (SignInState) -> Boolean
+    onSignIn: () -> Unit,
+    onNavigateToMainRoot: () -> Unit,
+    onBackNavigate: () -> Unit
 ) {
     val navigateToMainRoot = {
-        if (onSignIn(state)) {
-            navController.navigate(BottomNavigationRoot.Activity.route) {
-                popUpTo(Root.Auth.route) { inclusive = true }
-                launchSingleTop = true
-            }
+        onSignIn()
+        if (state.isSuccess) {
+            onNavigateToMainRoot()
         }
     }
 
     ScaffoldWithOptionalAppBar(
         showAppBar = true,
-        onClickBackButton = { navController.navigateUp() },
+        onClickBackButton = onBackNavigate,
         content = {
 
         Column(

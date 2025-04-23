@@ -24,7 +24,6 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
 
     private val myActivities = listOf<ActivityView>(
         ActivityView(
-            id = 1,
             title = "Серфинг \uD83C\uDFC4",
             distance = "14.32 км",
             createdDate = "14 часов назад",
@@ -34,11 +33,10 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
             startTime = "12:36",
             endTime = "17:31",
             comments = listOf(
-                CommentView(id = 1, content = "Отличная работа!")
+                CommentView(content = "Отличная работа!")
             )
         ),
         ActivityView(
-            id = 2,
             title = "Велосипед  \uD83D\uDEB2",
             distance = "1 000 м",
             createdDate = "29.05.2022",
@@ -48,14 +46,13 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
             startTime = "14:39",
             endTime = "16:31",
             comments = listOf(
-                CommentView(id = 2, content = "Какой маршрут выбрали?")
+                CommentView(content = "Какой маршрут выбрали?")
             )
         )
     )
 
     private val userActivities = listOf<ActivityView>(
         ActivityView(
-            id = 3,
             title = "Серфинг",
             distance = "14.32 км",
             createdDate = "14 часов назад",
@@ -65,11 +62,10 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
             startTime = "14:36",
             endTime = "17:31",
             comments = listOf(
-                CommentView(id = 3, content = "Отличная работа!")
+                CommentView(content = "Отличная работа!")
             )
         ),
         ActivityView(
-            id = 4,
             title = "Качели",
             distance = "228 м",
             createdDate = "14 часов назад",
@@ -79,11 +75,10 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
             startTime = "12:36",
             endTime = "03:12",
             comments = listOf(
-                CommentView(id = 4, content = "Отличная работа!")
+                CommentView(content = "Отличная работа!")
             )
         ),
         ActivityView(
-            id = 5,
             title = "Езда на кадилак",
             distance = "10 км",
             createdDate = "14 часов назад",
@@ -93,9 +88,9 @@ class ActivityViewModel @Inject constructor() : ViewModel() {
             startTime = "12:36",
             endTime = "13:46",
             comments = listOf(
-                CommentView(id = 5, content = "Отличная работа!")
+                CommentView(content = "Отличная работа!")
             )
-        ),
+        )
     )
 
     init {

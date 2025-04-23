@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.fefu_course.presentation.features.user.navigation.addProfileScreen
 import com.example.fefu_course.presentation.navigation.UserScreen
-import com.example.fefu_course.presentation.navigation.addProfileScreen
 
 @Composable
-fun UserScreen(navController: NavController) {
+fun UserScreen() {
     val userController = rememberNavController()
 
     Column {
