@@ -15,11 +15,13 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.fefu_course.R
+import com.example.fefu_course.domain.entity.Activity
 import com.example.fefu_course.presentation.ui.theme.Typography
-import com.example.fefu_course.presentation.vo.ActivityView
+import com.example.fefu_course.presentation.utils.duration
+import com.example.fefu_course.presentation.utils.formattedDistance
 
 @Composable
-fun ActivityCard(activity: ActivityView, onNavigateToActivityDetail: (id: Int) -> Unit) {
+fun ActivityCard(activity: Activity, onNavigateToActivityDetail: (id: Int) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +49,7 @@ fun ActivityCard(activity: ActivityView, onNavigateToActivityDetail: (id: Int) -
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = activity.distance,
+                    text = activity.formattedDistance,
                     style = Typography.displayLarge
                 )
 
@@ -75,12 +77,6 @@ fun ActivityCard(activity: ActivityView, onNavigateToActivityDetail: (id: Int) -
                 Text(
                     text = activity.title,
                     style = Typography.bodyLarge,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = activity.createdDate,
-                    style = Typography.bodySmall,
-                    textAlign = TextAlign.End,
                     modifier = Modifier.weight(1f)
                 )
             }

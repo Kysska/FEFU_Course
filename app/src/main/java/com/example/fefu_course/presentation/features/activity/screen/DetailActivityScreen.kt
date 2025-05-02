@@ -23,19 +23,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.fefu_course.R
+import com.example.fefu_course.domain.entity.Activity
+import com.example.fefu_course.domain.entity.Comment
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.theme.primaryColor
 import com.example.fefu_course.presentation.ui.widget.CommentInputField
 import com.example.fefu_course.presentation.ui.widget.CommentList
 import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
-import com.example.fefu_course.presentation.vo.ActivityView
-import com.example.fefu_course.presentation.vo.CommentView
+import com.example.fefu_course.presentation.utils.createdDate
+import com.example.fefu_course.presentation.utils.duration
 import java.util.UUID
 
 @Composable
 fun DetailActivityScreen(
-    activityState: ActivityView,
-    onAddComment: (CommentView) -> Unit,
+    activityState: Activity,
+    onAddComment: (Comment) -> Unit,
     onNavigateBack: () -> Unit
 ) {
     var newComment by remember { mutableStateOf("") }
@@ -79,7 +81,7 @@ fun DetailActivityScreen(
                     onSubmit = {
                         if (newComment.isNotBlank()) {
                             val commentView =
-                                CommentView(
+                                Comment(
                                     id = UUID.randomUUID().hashCode(),
                                     content = newComment
                                 )
@@ -99,7 +101,7 @@ fun DetailActivityScreen(
 
 @Composable
 fun ActivityHeader(
-    activityState: ActivityView,
+    activityState: Activity,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -109,14 +111,14 @@ fun ActivityHeader(
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
         Column {
             Text(
-                text = activityState.distance,
+                text = activityState.distance.toString(),
                 style = Typography.displayLarge
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
 
             Text(
-                text = activityState.createdDate,
+                text = activityState.createdAt.createdDate,
                 style = Typography.bodySmall
             )
 
@@ -137,7 +139,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.startTime,
+                text = activityState.startTime.createdDate,
                 style = Typography.bodySmall
             )
 
@@ -151,7 +153,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.endTime,
+                text = activityState.endTime.createdDate,
                 style = Typography.bodySmall
             )
         }

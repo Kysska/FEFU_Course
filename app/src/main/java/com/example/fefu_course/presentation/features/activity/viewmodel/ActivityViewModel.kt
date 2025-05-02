@@ -1,133 +1,115 @@
 package com.example.fefu_course.presentation.features.activity.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.fefu_course.domain.ActivityRepository
+import com.example.fefu_course.domain.CommentRepository
+import com.example.fefu_course.domain.entity.Activity
+import com.example.fefu_course.domain.entity.Comment
 import com.example.fefu_course.presentation.features.activity.state.ActivityState
-import com.example.fefu_course.presentation.vo.ActivityView
-import com.example.fefu_course.presentation.vo.CommentView
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
-class ActivityViewModel @Inject constructor() : ViewModel() {
+class ActivityViewModel @Inject constructor(
+    private val activityRepository: ActivityRepository,
+    private val commentRepository: CommentRepository
+) : ViewModel() {
     private val _myState = MutableStateFlow(ActivityState())
     val myState: StateFlow<ActivityState> = _myState.asStateFlow()
 
     private val _userState = MutableStateFlow(ActivityState())
     val userState: StateFlow<ActivityState> = _userState.asStateFlow()
 
-    private val _activityState = MutableStateFlow(ActivityView())
-    val activityState: StateFlow<ActivityView> = _activityState.asStateFlow()
-
-    private val myActivities = listOf<ActivityView>(
-        ActivityView(
-            title = "Серфинг \uD83C\uDFC4",
-            distance = "14.32 км",
-            createdDate = "14 часов назад",
-            createdAt = "Вчера",
-            accountName = null,
-            duration = "2 часа 46 минут",
-            startTime = "12:36",
-            endTime = "17:31",
-            comments = listOf(
-                CommentView(content = "Отличная работа!")
-            )
-        ),
-        ActivityView(
-            title = "Велосипед  \uD83D\uDEB2",
-            distance = "1 000 м",
-            createdDate = "29.05.2022",
-            createdAt = "Май 2022 года",
-            duration = "60 минут",
-            accountName = null,
-            startTime = "14:39",
-            endTime = "16:31",
-            comments = listOf(
-                CommentView(content = "Какой маршрут выбрали?")
-            )
-        )
-    )
-
-    private val userActivities = listOf<ActivityView>(
-        ActivityView(
-            title = "Серфинг",
-            distance = "14.32 км",
-            createdDate = "14 часов назад",
-            createdAt = "Вчера",
-            accountName = "@skfjeiijf",
-            duration = "2 часа 46 минут",
-            startTime = "14:36",
-            endTime = "17:31",
-            comments = listOf(
-                CommentView(content = "Отличная работа!")
-            )
-        ),
-        ActivityView(
-            title = "Качели",
-            distance = "228 м",
-            createdDate = "14 часов назад",
-            createdAt = "Вчера",
-            accountName = "@548dg",
-            duration = "14 часов 48 минут",
-            startTime = "12:36",
-            endTime = "03:12",
-            comments = listOf(
-                CommentView(content = "Отличная работа!")
-            )
-        ),
-        ActivityView(
-            title = "Езда на кадилак",
-            distance = "10 км",
-            createdDate = "14 часов назад",
-            createdAt = "Вчера",
-            accountName = "@ioeio67",
-            duration = "1 час 10 минут",
-            startTime = "12:36",
-            endTime = "13:46",
-            comments = listOf(
-                CommentView(content = "Отличная работа!")
-            )
-        )
-    )
+    private val _activityState = MutableStateFlow(Activity())
+    val activityState: StateFlow<Activity> = _activityState.asStateFlow()
 
     init {
-        loadMyActivities()
-        loadUserActivities()
-    }
-
-    private fun loadMyActivities() {
-        _myState.update {
-            it.copy(
-                activities = myActivities
-            )
-        }
-    }
-
-    private fun loadUserActivities() {
-        _userState.update {
-            it.copy(
-                activities = userActivities
-            )
-        }
+        getMyActivity()
+        getUserActivity()
     }
 
     fun getActivityById(id: Int) {
-        val activity =
-            userActivities.find { it.id == id } ?: myActivities.find { it.id == id } ?: ActivityView()
-        _activityState.update {
-            activity
+        viewModelScope.launch {
+            activityRepository.getActivity(idActivity = id)
+                .collect { activity ->
+                    _activityState.update {
+                        activity
+                    }
+                }
         }
     }
 
-    fun addComment(comment: CommentView) {
-        _activityState.update { currentState ->
-            val updatedComments = currentState.comments.toMutableList().apply {
-                add(comment)
+    private fun getMyActivity() {
+        viewModelScope.launch {
+            activityRepository.getActivities(myActivities = true)
+                .onStart { _myState.update { it.copy(isLoading = true) } }
+                .catch { error ->
+                    _myState.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = error.message ?: ""
+                        )
+                    }
+                }
+                .collect { activities ->
+                    _myState.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = "",
+                            activities = activities
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun getUserActivity() {
+        viewModelScope.launch {
+            activityRepository.getActivities(myActivities = false)
+                .onStart { _userState.update { it.copy(isLoading = true) } }
+                .catch { error ->
+                    _userState.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = error.message ?: ""
+                        )
+                    }
+                }
+                .collect { activities ->
+                    _userState.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = "",
+                            activities = activities
+                        )
+                    }
+                }
+        }
+    }
+
+    fun addComment(comment: Comment, activityId: Int) {
+        viewModelScope.launch {
+            try {
+                commentRepository.addComment(comment, activityId)
+                _activityState.update { currentState ->
+                    val updatedComments = currentState.comments.toMutableList().apply {
+                        add(comment)
+                    }
+                    currentState.copy(comments = updatedComments)
+                }
+            } catch (e: Exception) {
+                _activityState.update { currentState ->
+                    currentState.copy(comments = currentState.comments)
+                }
             }
-            currentState.copy(comments = updatedComments)
         }
     }
 }
