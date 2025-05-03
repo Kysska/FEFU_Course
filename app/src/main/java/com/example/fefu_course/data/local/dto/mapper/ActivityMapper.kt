@@ -15,12 +15,12 @@ object ActivityMapper : DatabaseMapper<Activity, ActivityWithCommentDb> {
                 distance = from.distance,
                 distanceUnit = from.distanceUnit.name,
                 createdAt = from.createdAt,
-                accountName = from.accountName ?: "",
+                accountName = from.accountName,
                 startTime = from.startTime,
                 endTime = from.endTime,
                 myActivities = from.myActivities
             ),
-            comment = CommentMapper.map(from.comments)
+            comment = CommentMapper.map(from.comments),
         )
     }
 
@@ -35,7 +35,7 @@ object ActivityMapper : DatabaseMapper<Activity, ActivityWithCommentDb> {
             startTime = to.activity.startTime,
             endTime = to.activity.endTime,
             myActivities = to.activity.myActivities,
-            comments = CommentMapper.reverseMap(to.comment)
+            comments = CommentMapper.reverseMap(to.comment),
         )
     }
 }

@@ -15,40 +15,25 @@ class LocalActivityDataSourceImpl @Inject constructor(
     private val databaseActivityMapper: ActivityMapper = ActivityMapper,
     private val databaseCommentMapper: CommentMapper = CommentMapper
 ) : LocalActivityDataSource {
+
     override suspend fun insertActivity(activity: Activity) {
         val activityDB = databaseActivityMapper.map(activity)
-
-        dao.insertActivity(activityDB.activity)
-
-        if (activity.comments.isNotEmpty()) {
-            for (comment in activity.comments) {
-                dao.insertComment(databaseCommentMapper.map(comment))
-
-                val crossRef = ActivityCommentCrossRef(
-                    activityId = activity.id,
-                    commentId = comment.id
-                )
-                dao.insertActivityCommentCrossRef(crossRef)
-            }
+        val commentDBs = activity.comments.map { databaseCommentMapper.map(it) }
+        val crossRefs = activity.comments.map { comment ->
+            ActivityCommentCrossRef(activity.id, comment.id)
         }
+
+        dao.insertFullActivity(activityDB.activity, commentDBs, crossRefs)
     }
 
     override suspend fun deleteActivity(activity: Activity) {
         val activityDB = databaseActivityMapper.map(activity)
-
-        dao.deleteActivity(activityDB.activity)
-
-        if (activity.comments.isNotEmpty()) {
-            for (comment in activity.comments) {
-                dao.deleteComment(databaseCommentMapper.map(comment))
-
-                val crossRef = ActivityCommentCrossRef(
-                    activityId = activity.id,
-                    commentId = comment.id
-                )
-                dao.deleteActivityCommentCrossRef(crossRef)
-            }
+        val commentDBs = activity.comments.map { databaseCommentMapper.map(it) }
+        val crossRefs = activity.comments.map { comment ->
+            ActivityCommentCrossRef(activity.id, comment.id)
         }
+
+        dao.deleteFullActivity(activityDB.activity, commentDBs, crossRefs)
     }
 
     override fun getActivity(idActivity: Int): Flow<Activity> {
@@ -56,10 +41,6 @@ class LocalActivityDataSourceImpl @Inject constructor(
     }
 
     override fun getActivities(myActivities: Boolean): Flow<List<Activity>> {
-        if (myActivities) {
-            return dao.getAllMyActivity(myActivities).map { ActivityMapper.reverseMap(it) }
-        } else {
-            return dao.getAllUserActivity(myActivities).map { ActivityMapper.reverseMap(it) }
-        }
+        return dao.getAllUserActivity(myActivities).map { ActivityMapper.reverseMap(it) }
     }
 }

@@ -19,8 +19,8 @@ class LocalCommentDataSourceImpl @Inject constructor(
         activityDao.insertActivityCommentCrossRef(
             ActivityCommentCrossRef(
                 activityId = activityId,
-                commentId = commentDb.id
-            )
+                commentId = commentDb.id,
+            ),
         )
     }
 
@@ -31,8 +31,8 @@ class LocalCommentDataSourceImpl @Inject constructor(
         activityDao.deleteActivityCommentCrossRef(
             ActivityCommentCrossRef(
                 activityId = activityId,
-                commentId = commentDB.id
-            )
+                commentId = commentDB.id,
+            ),
         )
     }
 }

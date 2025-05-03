@@ -9,11 +9,11 @@ class ActivityRepositoryImpl(
 ) : ActivityRepository {
 
     override suspend fun saveActivity(activity: Activity) {
-        return localActivityDataSource.insertActivity(activity)
+        localActivityDataSource.insertActivity(activity)
     }
 
     override suspend fun deleteActivity(activity: Activity) {
-        return localActivityDataSource.deleteActivity(activity)
+        localActivityDataSource.deleteActivity(activity)
     }
 
     override fun getActivity(idActivity: Int): Flow<Activity> {

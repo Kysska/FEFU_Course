@@ -11,26 +11,29 @@ import java.util.Locale
 val Activity.formattedDistance: String
     get() = formatDistance(distance, distanceUnit)
 
-val Activity.duration: String
+val Activity.formattedDuration: String
     get() = formatDuration(startTime, endTime)
 
-val LocalDateTime.createdDate: String
-    get() = formatDate(this)
+val Activity.formattedCreatedDate: String
+    get() = formatDate(createdAt)
 
 val Activity.formattedCreatedAt: String
     get() = formatCreatedAt(createdAt)
 
-val Activity.formattedTime: String
+val Activity.formattedStartTime: String
     get() = formatTime(startTime)
 
-fun formatDistance(distance: Double, unit: DistanceUnit): String {
+val Activity.formattedEndTime: String
+    get() = formatTime(endTime)
+
+private fun formatDistance(distance: Double, unit: DistanceUnit): String {
     return when (unit) {
         DistanceUnit.METERS -> "${"%.0f".format(distance)} м"
         DistanceUnit.KILOMETERS -> "${"%.2f".format(distance)} км"
     }
 }
 
-fun formatDuration(startTime: LocalDateTime, endTime: LocalDateTime): String {
+private fun formatDuration(startTime: LocalDateTime, endTime: LocalDateTime): String {
     val duration = Duration.between(startTime, endTime)
     val hours = duration.toHours()
     val minutes = duration.toMinutes() % 60
@@ -38,23 +41,19 @@ fun formatDuration(startTime: LocalDateTime, endTime: LocalDateTime): String {
     return "$hours ${pluralize(hours.toInt(), "час", "часа", "часов")} $minutes ${pluralize(minutes.toInt(), "минута", "минуты", "минут")}"
 }
 
-fun formatCreatedAt(createdAt: LocalDateTime): String {
+private fun formatCreatedAt(createdAt: LocalDateTime): String {
     val now = LocalDateTime.now()
-    val diffInMillis = ChronoUnit.MILLIS.between(createdAt, now)
-    val diffInHours = diffInMillis / (60 * 60 * 1000)
+    val diffInHours = ChronoUnit.HOURS.between(createdAt, now)
 
-    return if (diffInHours < 24) {
-        when {
-            diffInHours == 0L -> "Только что"
-            else -> "$diffInHours ${pluralize(diffInHours.toInt(), "час", "часа", "часов")} назад"
-        }
-    } else {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        createdAt.format(formatter)
+    return when {
+        diffInHours < 1 -> "Только что"
+        diffInHours < 24 -> "$diffInHours ${pluralize(diffInHours.toInt(), "час", "часа", "часов")} назад"
+        else -> createdAt.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 }
 
-fun formatDate(createdAt: LocalDateTime): String {
+
+private fun formatDate(createdAt: LocalDateTime): String {
     val now = LocalDateTime.now()
     val diffInDays = ChronoUnit.DAYS.between(createdAt, now)
     val diffInWeeks = diffInDays / 7
@@ -64,7 +63,7 @@ fun formatDate(createdAt: LocalDateTime): String {
     return when {
         createdAt.year == now.year && createdAt.dayOfYear == now.dayOfYear -> "Сегодня"
 
-        createdAt.year == now.year && createdAt.dayOfYear == now.dayOfYear - 1 -> "Вчера"
+        createdAt.year == now.year && createdAt.dayOfYear == now.minusDays(1).dayOfYear -> "Вчера"
 
         diffInDays in 2..7 -> "$diffInDays ${pluralize(diffInDays.toInt(), "день", "дня", "дней")} назад"
 
@@ -82,12 +81,12 @@ fun formatDate(createdAt: LocalDateTime): String {
     }
 }
 
-fun formatTime(time: LocalDateTime): String {
+private fun formatTime(time: LocalDateTime): String {
     val formatter = DateTimeFormatter.ofPattern("HH:mm")
     return time.format(formatter)
 }
 
-fun pluralize(count: Int, one: String, few: String, many: String): String {
+private fun pluralize(count: Int, one: String, few: String, many: String): String {
     return when (count % 100) {
         11, 12, 13, 14 -> many
         else -> when (count % 10) {

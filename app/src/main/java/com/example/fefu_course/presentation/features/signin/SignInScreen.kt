@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,8 +30,7 @@ fun SignInScreen(
     onNavigateToMainRoot: () -> Unit,
     onBackNavigate: () -> Unit
 ) {
-    val navigateToMainRoot = {
-        onSignIn()
+    LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             onNavigateToMainRoot()
         }
@@ -76,7 +76,8 @@ fun SignInScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(dimensionResource(id = R.dimen.button_height)),
-                    onClickListener = navigateToMainRoot
+                    onClickListener = onSignIn,
+                    enabled = !state.isLoading
                 )
             }
         }

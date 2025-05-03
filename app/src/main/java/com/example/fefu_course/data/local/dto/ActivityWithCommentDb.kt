@@ -12,5 +12,5 @@ data class ActivityWithCommentDb(
         entityColumn = DatabaseConstName.ActivityCommentCrossRef.COLUMN_COMMENT_ID,
         associateBy = Junction(ActivityCommentCrossRef::class)
     )
-    val comment: List<CommentDB>
+    val comment: List<CommentDB>,
 )

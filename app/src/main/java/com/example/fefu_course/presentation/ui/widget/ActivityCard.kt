@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.example.fefu_course.R
 import com.example.fefu_course.domain.entity.Activity
 import com.example.fefu_course.presentation.ui.theme.Typography
-import com.example.fefu_course.presentation.utils.duration
 import com.example.fefu_course.presentation.utils.formattedDistance
+import com.example.fefu_course.presentation.utils.formattedDuration
 
 @Composable
 fun ActivityCard(activity: Activity, onNavigateToActivityDetail: (id: Int) -> Unit) {
@@ -53,14 +53,14 @@ fun ActivityCard(activity: Activity, onNavigateToActivityDetail: (id: Int) -> Un
                     style = Typography.displayLarge
                 )
 
-                Text(text = activity.accountName ?: "", style = Typography.titleSmall, textAlign = TextAlign.End)
+                Text(text = activity.accountName, style = Typography.titleSmall, textAlign = TextAlign.End)
             }
 
             Row(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xsmall))
             ) {
                 Text(
-                    text = activity.duration,
+                    text = activity.formattedDuration,
                     style = Typography.bodyLarge
                 )
             }

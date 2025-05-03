@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -40,8 +41,7 @@ fun SignUpScreen(
     onNavigateToMainRoot: () -> Unit,
     onBackNavigate: () -> Unit
 ) {
-    val navigateToMainRoot = {
-        onSignUp()
+    LaunchedEffect(signUpState.isSuccess) {
         if (signUpState.isSuccess) {
             onNavigateToMainRoot()
         }
@@ -131,7 +131,8 @@ fun SignUpScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(dimensionResource(id = R.dimen.button_height)),
-                    onClickListener = navigateToMainRoot
+                    onClickListener = onSignUp,
+                    enabled = !signUpState.isLoading
                 )
 
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_small)))

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.fefu_course.R
 import com.example.fefu_course.domain.entity.Activity
 import com.example.fefu_course.presentation.ui.theme.Typography
-import com.example.fefu_course.presentation.utils.createdDate
+import com.example.fefu_course.presentation.utils.formattedCreatedDate
 import com.example.fefu_course.presentation.utils.groupActivitiesByDate
 
 @Composable
@@ -30,7 +30,7 @@ fun LazyColumnActivity(
         groupedMessages.forEach { (date, activitiesForDate) ->
             item {
                 Text(
-                    text = date.createdDate,
+                    text = date,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(dimensionResource(id = R.dimen.padding_small)),

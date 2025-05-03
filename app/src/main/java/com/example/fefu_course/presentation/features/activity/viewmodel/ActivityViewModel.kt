@@ -1,5 +1,6 @@
 package com.example.fefu_course.presentation.features.activity.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fefu_course.domain.ActivityRepository
@@ -9,6 +10,7 @@ import com.example.fefu_course.domain.entity.Comment
 import com.example.fefu_course.presentation.features.activity.state.ActivityState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,8 +39,11 @@ class ActivityViewModel @Inject constructor(
     }
 
     fun getActivityById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             activityRepository.getActivity(idActivity = id)
+                .catch { e ->
+                    Log.e("ActivityViewModel", e.message ?: "")
+                }
                 .collect { activity ->
                     _activityState.update {
                         activity
@@ -48,10 +53,11 @@ class ActivityViewModel @Inject constructor(
     }
 
     private fun getMyActivity() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             activityRepository.getActivities(myActivities = true)
                 .onStart { _myState.update { it.copy(isLoading = true) } }
                 .catch { error ->
+                    Log.e("ActivityViewModel", error.message ?: "")
                     _myState.update {
                         it.copy(
                             isLoading = false,
@@ -72,10 +78,11 @@ class ActivityViewModel @Inject constructor(
     }
 
     private fun getUserActivity() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             activityRepository.getActivities(myActivities = false)
                 .onStart { _userState.update { it.copy(isLoading = true) } }
                 .catch { error ->
+                    Log.e("ActivityViewModel", error.message ?: "")
                     _userState.update {
                         it.copy(
                             isLoading = false,
@@ -96,7 +103,7 @@ class ActivityViewModel @Inject constructor(
     }
 
     fun addComment(comment: Comment, activityId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 commentRepository.addComment(comment, activityId)
                 _activityState.update { currentState ->

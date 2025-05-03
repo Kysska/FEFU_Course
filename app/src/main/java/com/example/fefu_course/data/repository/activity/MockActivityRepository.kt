@@ -7,6 +7,7 @@ import com.example.fefu_course.domain.entity.DistanceUnit
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
@@ -17,16 +18,16 @@ class MockActivityRepository @Inject constructor(
     private val localActivityDataSource: LocalActivityDataSource
 ) : ActivityRepository {
 
-    private val timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
     private val myMockActivities = listOf(
         Activity(
             title = "Серфинг \uD83C\uDFC4",
             distance = 14.32,
             distanceUnit = DistanceUnit.KILOMETERS,
-            createdAt = LocalDateTime.now().minusHours(14),
-            startTime = LocalDateTime.parse("02.05.2025 12:49", timeFormatter),
-            endTime = LocalDateTime.parse("02.05.2025 13:55", timeFormatter),
+            createdAt = LocalDateTime.now().minusHours(14).minusMinutes(15),
+            startTime = LocalDateTime.now().minusHours(14).minusMinutes(30),
+            endTime = LocalDateTime.now().minusHours(13).minusMinutes(20),
             myActivities = true,
             accountName = "@qwerty",
             comments = listOf(
@@ -37,9 +38,9 @@ class MockActivityRepository @Inject constructor(
             title = "Велосипед  \uD83D\uDEB2",
             distance = 1000.0,
             distanceUnit = DistanceUnit.METERS,
-            createdAt = LocalDateTime.parse("23.04.2022 15:20", timeFormatter),
-            startTime = LocalDateTime.parse("23.04.2022 15:20", timeFormatter),
-            endTime = LocalDateTime.parse("23.04.2022 18:20", timeFormatter),
+            createdAt = LocalDateTime.parse("23.05.2022 15:20", formatter),
+            startTime = LocalDateTime.parse("23.05.2022 15:20", formatter),
+            endTime = LocalDateTime.parse("23.05.2022 18:25", formatter),
             myActivities = true,
             accountName = "@qwerty",
             comments = listOf(
@@ -53,9 +54,9 @@ class MockActivityRepository @Inject constructor(
             title = "Серфинг",
             distance = 14.32,
             distanceUnit = DistanceUnit.KILOMETERS,
-            createdAt = LocalDateTime.now().minusHours(14),
-            startTime = LocalDateTime.parse("02.05.2025 14:36", timeFormatter),
-            endTime = LocalDateTime.parse("02.05.2025 17:31", timeFormatter),
+            createdAt = LocalDateTime.now().minusHours(14).minusMinutes(15),
+            startTime = LocalDateTime.now().minusHours(14).minusMinutes(30),
+            endTime = LocalDateTime.now().minusHours(13).minusMinutes(20),
             accountName = "@qsgfhh",
             comments = listOf(
                 Comment(content = "Отличная работа!")
@@ -65,9 +66,9 @@ class MockActivityRepository @Inject constructor(
             title = "Качели",
             distance = 228.0,
             distanceUnit = DistanceUnit.METERS,
-            createdAt = LocalDateTime.now().minusHours(14),
-            startTime = LocalDateTime.parse("02.05.2025 14:36", timeFormatter),
-            endTime = LocalDateTime.parse("02.05.2025 17:31", timeFormatter),
+            createdAt = LocalDateTime.now().minusHours(14).minusMinutes(15),
+            startTime = LocalDateTime.now().minusHours(14).minusMinutes(30),
+            endTime = LocalDateTime.now().minusHours(13).minusMinutes(20),
             accountName = "@qsgfhh",
             comments = listOf(
                 Comment(content = "Отличная работа!")
@@ -77,9 +78,9 @@ class MockActivityRepository @Inject constructor(
             title = "Езда на кадилак",
             distance = 10.0,
             distanceUnit = DistanceUnit.KILOMETERS,
-            createdAt = LocalDateTime.now().minusHours(14),
-            startTime = LocalDateTime.parse("02.05.2025 12:36", timeFormatter),
-            endTime = LocalDateTime.parse("02.05.2025 13:46", timeFormatter),
+            createdAt = LocalDateTime.now().minusHours(14).minusMinutes(15),
+            startTime = LocalDateTime.now().minusHours(14).minusMinutes(30),
+            endTime = LocalDateTime.now().minusHours(13).minusMinutes(20),
             accountName = "@ioeuw",
             comments = listOf(
                 Comment(content = "Какой маршрут выбрали?")
@@ -104,6 +105,7 @@ class MockActivityRepository @Inject constructor(
             }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getActivities(myActivities: Boolean): Flow<List<Activity>> {
         return localActivityDataSource.getActivities(myActivities)
             .flatMapConcat { cached ->

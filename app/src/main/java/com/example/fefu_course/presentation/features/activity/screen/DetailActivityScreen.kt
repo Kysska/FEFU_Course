@@ -30,8 +30,11 @@ import com.example.fefu_course.presentation.ui.theme.primaryColor
 import com.example.fefu_course.presentation.ui.widget.CommentInputField
 import com.example.fefu_course.presentation.ui.widget.CommentList
 import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
-import com.example.fefu_course.presentation.utils.createdDate
-import com.example.fefu_course.presentation.utils.duration
+import com.example.fefu_course.presentation.utils.formattedCreatedAt
+import com.example.fefu_course.presentation.utils.formattedDistance
+import com.example.fefu_course.presentation.utils.formattedDuration
+import com.example.fefu_course.presentation.utils.formattedEndTime
+import com.example.fefu_course.presentation.utils.formattedStartTime
 import java.util.UUID
 
 @Composable
@@ -47,7 +50,7 @@ fun DetailActivityScreen(
         title = activityState.title,
         onClickBackButton = onNavigateBack,
         actions = {
-            if (activityState.accountName == null) {
+            if (activityState.myActivities) {
                 IconButton(onClick = { }) {
                     Icon(
                         Icons.Default.Delete,
@@ -105,27 +108,27 @@ fun ActivityHeader(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        if (activityState.accountName != null) {
+        if (!activityState.myActivities) {
             Text(text = activityState.accountName, style = Typography.titleSmall)
         }
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
         Column {
             Text(
-                text = activityState.distance.toString(),
+                text = activityState.formattedDistance,
                 style = Typography.displayLarge
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
 
             Text(
-                text = activityState.createdAt.createdDate,
+                text = activityState.formattedCreatedAt,
                 style = Typography.bodySmall
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_medium)))
 
             Text(
-                text = activityState.duration,
+                text = activityState.formattedDuration,
                 style = Typography.displayLarge
             )
         }
@@ -139,7 +142,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.startTime.createdDate,
+                text = activityState.formattedStartTime,
                 style = Typography.bodySmall
             )
 
@@ -153,7 +156,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.endTime.createdDate,
+                text = activityState.formattedEndTime,
                 style = Typography.bodySmall
             )
         }

@@ -33,14 +33,24 @@ interface ActivityDao {
     suspend fun deleteActivityCommentCrossRef(crossRef: ActivityCommentCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM activity WHERE my_activity = :myActivity ORDER BY created_at")
-    fun getAllMyActivity(myActivity: Boolean): Flow<List<ActivityWithCommentDb>>
-
-    @Transaction
-    @Query("SELECT * FROM activity  WHERE my_activity = :myActivity ORDER BY created_at")
+    @Query("SELECT * FROM activity  WHERE my_activity = :myActivity ORDER BY created_at DESC")
     fun getAllUserActivity(myActivity: Boolean): Flow<List<ActivityWithCommentDb>>
 
     @Transaction
     @Query("SELECT * FROM activity WHERE activity_id = :id")
     fun getActivity(id: Int): Flow<ActivityWithCommentDb>
+
+    @Transaction
+    suspend fun insertFullActivity(activity: ActivityDB, comments: List<CommentDB>, crossRefs: List<ActivityCommentCrossRef>) {
+        insertActivity(activity)
+        comments.forEach { insertComment(it) }
+        crossRefs.forEach { insertActivityCommentCrossRef(it) }
+    }
+
+    @Transaction
+    suspend fun deleteFullActivity(activity: ActivityDB, comments: List<CommentDB>, crossRefs: List<ActivityCommentCrossRef>) {
+        deleteActivity(activity)
+        comments.forEach { deleteComment(it) }
+        crossRefs.forEach { deleteActivityCommentCrossRef(it) }
+    }
 }

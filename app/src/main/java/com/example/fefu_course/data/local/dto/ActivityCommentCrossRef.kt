@@ -11,5 +11,5 @@ data class ActivityCommentCrossRef(
     @ColumnInfo(name = DatabaseConstName.ActivityCommentCrossRef.COLUMN_ACTIVITY_ID)
     val activityId: Int,
     @ColumnInfo(name = DatabaseConstName.ActivityCommentCrossRef.COLUMN_COMMENT_ID)
-    val commentId: Int
+    val commentId: Int,
 )

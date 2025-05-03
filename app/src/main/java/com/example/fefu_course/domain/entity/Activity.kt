@@ -9,7 +9,7 @@ data class Activity(
     val distance: Double = 0.0,
     val distanceUnit: DistanceUnit = DistanceUnit.METERS,
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    val accountName: String? = null,
+    val accountName: String = "",
     val myActivities: Boolean = false,
     val startTime: LocalDateTime = LocalDateTime.now(),
     val endTime: LocalDateTime = LocalDateTime.now(),
