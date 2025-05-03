@@ -23,19 +23,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.fefu_course.R
+import com.example.fefu_course.domain.entity.Activity
+import com.example.fefu_course.domain.entity.Comment
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.theme.primaryColor
 import com.example.fefu_course.presentation.ui.widget.CommentInputField
 import com.example.fefu_course.presentation.ui.widget.CommentList
 import com.example.fefu_course.presentation.ui.widget.ScaffoldWithOptionalAppBar
-import com.example.fefu_course.presentation.vo.ActivityView
-import com.example.fefu_course.presentation.vo.CommentView
+import com.example.fefu_course.presentation.utils.formattedCreatedAt
+import com.example.fefu_course.presentation.utils.formattedDistance
+import com.example.fefu_course.presentation.utils.formattedDuration
+import com.example.fefu_course.presentation.utils.formattedEndTime
+import com.example.fefu_course.presentation.utils.formattedStartTime
 import java.util.UUID
 
 @Composable
 fun DetailActivityScreen(
-    activityState: ActivityView,
-    onAddComment: (CommentView) -> Unit,
+    activityState: Activity,
+    onAddComment: (Comment) -> Unit,
     onNavigateBack: () -> Unit
 ) {
     var newComment by remember { mutableStateOf("") }
@@ -45,7 +50,7 @@ fun DetailActivityScreen(
         title = activityState.title,
         onClickBackButton = onNavigateBack,
         actions = {
-            if (activityState.accountName == null) {
+            if (activityState.myActivities) {
                 IconButton(onClick = { }) {
                     Icon(
                         Icons.Default.Delete,
@@ -79,7 +84,7 @@ fun DetailActivityScreen(
                     onSubmit = {
                         if (newComment.isNotBlank()) {
                             val commentView =
-                                CommentView(
+                                Comment(
                                     id = UUID.randomUUID().hashCode(),
                                     content = newComment
                                 )
@@ -99,31 +104,31 @@ fun DetailActivityScreen(
 
 @Composable
 fun ActivityHeader(
-    activityState: ActivityView,
+    activityState: Activity,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        if (activityState.accountName != null) {
+        if (!activityState.myActivities) {
             Text(text = activityState.accountName, style = Typography.titleSmall)
         }
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
         Column {
             Text(
-                text = activityState.distance,
+                text = activityState.formattedDistance,
                 style = Typography.displayLarge
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_xsmall)))
 
             Text(
-                text = activityState.createdDate,
+                text = activityState.formattedCreatedAt,
                 style = Typography.bodySmall
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_medium)))
 
             Text(
-                text = activityState.duration,
+                text = activityState.formattedDuration,
                 style = Typography.displayLarge
             )
         }
@@ -137,7 +142,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.startTime,
+                text = activityState.formattedStartTime,
                 style = Typography.bodySmall
             )
 
@@ -151,7 +156,7 @@ fun ActivityHeader(
                 style = Typography.bodySmall
             )
             Text(
-                text = activityState.endTime,
+                text = activityState.formattedEndTime,
                 style = Typography.bodySmall
             )
         }

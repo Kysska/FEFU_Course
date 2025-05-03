@@ -83,7 +83,7 @@ fun NavGraphBuilder.addActivityDetailScreen(
         DetailActivityScreen(
             activityState = activityState,
             onAddComment = { comment ->
-                viewModel.addComment(comment)
+                viewModel.addComment(comment, activityId)
             },
             onNavigateBack = { navController.navigateUp() }
         )

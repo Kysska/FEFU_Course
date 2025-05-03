@@ -11,13 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.fefu_course.R
+import com.example.fefu_course.domain.entity.Activity
 import com.example.fefu_course.presentation.ui.theme.Typography
+import com.example.fefu_course.presentation.utils.formattedCreatedDate
 import com.example.fefu_course.presentation.utils.groupActivitiesByDate
-import com.example.fefu_course.presentation.vo.ActivityView
 
 @Composable
 fun LazyColumnActivity(
-    activities: List<ActivityView>,
+    activities: List<Activity>,
     onNavigateToActivityDetail: (id: Int) -> Unit
 ) {
     val groupedMessages = activities.groupActivitiesByDate()

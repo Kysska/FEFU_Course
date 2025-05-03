@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.example.fefu_course.R
+import com.example.fefu_course.domain.entity.Comment
 import com.example.fefu_course.presentation.ui.theme.Typography
 import com.example.fefu_course.presentation.ui.theme.backgroundSecondary
-import com.example.fefu_course.presentation.vo.CommentView
 
 @Composable
 fun CommentList(
-    comments: List<CommentView>,
+    comments: List<Comment>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
